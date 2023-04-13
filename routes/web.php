@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChangeSidebarController;
+use App\Http\Controllers\BukuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,14 @@ Route::post('/changeSideBarState', [ChangeSidebarController::class, 'changeSideB
 
 Route::get('/', function () {
     return view('landing');
+});
+
+Route::middleware('auth')->group(function() {
+    Route::controller(BukuController::class)->group(function(){
+        Route::get('/dashboard/pengolahan/buku', 'read');
+        Route::post('/dashboard/pengolahan/buku/create', 'create');
+        Route::post('/dashboard/pengolahan/buku/delete', 'delete');
+    });
 });
 
 Route::get('/dashboard', function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
+use Illuminate\Http\Request;
 use App\Models\Buku;
 
 class BukuController extends Controller
@@ -11,56 +12,36 @@ class BukuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function read()
     {
-        //
+        return view('dashboard.pengolahan.buku',[
+            "bukus" => Buku::all(),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $cariBuku = Buku::where("label", $request->label)->first();
+        if($cariBuku) return redirect('/dashboard/pengolahan/buku');
+        else {
+            $newBuku = new Buku();
+            $newBuku->label = $request->label;
+            $newBuku->judul = $request->judul;
+            $newBuku->pengarang = $request->pengarang;
+            $newBuku->impresium = $request->impresium;
+            $newBuku->kolasi = $request->kolasi;
+            $newBuku->isbn_issn = $request->isbn_issn;
+            $newBuku->jumlah = $request->jumlah;
+            $newBuku->save();
+            return redirect('/dashboard/pengolahan/buku');
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBukuRequest $request)
+    public function delete(Request $request)
     {
-        //
+        $cariBuku = Buku::where("id", $request->id)->first();
+        if($cariBuku) $cariBuku->delete();
+        return redirect('/dashboard/pengolahan/buku');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Buku $buku)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Buku $buku)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateBukuRequest $request, Buku $buku)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Buku $buku)
-    {
-        //
-    }
 }
