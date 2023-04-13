@@ -21,7 +21,7 @@ Badan Perpustakaan Untag Surabaya
                 <h4 class="card-title"><b>Pengolahan Buku</b></h4>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
-               <button class="btn btn-primary me-4" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambahkan Data</button>
+               <button class="btn btn-primary me-4" data-bs-toggle="modal" data-bs-target="#createModal">Tambahkan Data</button>
             </div>
         </div>
         <div style="max-height: 70vh; overflow-y:auto;">
@@ -59,7 +59,7 @@ Badan Perpustakaan Untag Surabaya
                                             <a class="btn btn-primary" style="width:30px; height:30px; padding:0px;"><i class='bx bx-show' style="font-size: 20px;margin:3px;"></i></a>
                                         </div> --}}
                                         <div class="col-2">
-                                            <a class="btn btn-primary" style="width:30px; height:30px; padding:0px;"><i class='bx bx-pencil' style="font-size: 20px;margin:3px;"></i></a>
+                                            <a href="/dashboard/pengolahan/buku?id={{ $buku->id }}" class="btn btn-primary" style="width:30px; height:30px; padding:0px;"><i class='bx bx-pencil' style="font-size: 20px;margin:3px;"></i></a>
                                         </div>
                                         <div class="col-2">
                                             <form method="POST" action="/dashboard/pengolahan/buku/delete">@csrf
@@ -68,7 +68,7 @@ Badan Perpustakaan Untag Surabaya
                                             </form>
                                         </div>
                                         <div class="col-2">
-                                            <a href="data:image/png;base64,{{DNS2D::getBarcodePNG($buku->label, 'QRCODE', 5,5)}}" download="{{ $buku->label }}.png" class="btn btn-primary" style="width:30px; height:30px; padding:0px;"><i class='bx bxs-cloud-download' style="font-size: 20px;margin:3px;"></i></a>
+                                            <a href="http://perpus.eepis.tech/dashboard/pengolahan/buku/showQR/{{ $buku->label }}" class="btn btn-primary" style="width:30px; height:30px; padding:0px;"><i class='bx bxs-cloud-download' style="font-size: 20px;margin:3px;"></i></a>
                                         </div>
                                     </div>
                                 </td>
@@ -82,12 +82,12 @@ Badan Perpustakaan Untag Surabaya
         </div>
     @include('components.cardClose')
     
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModal" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <form method="POST" action="/dashboard/pengolahan/buku/create">@csrf
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambahkan Buku</h1>
+                    <h1 class="modal-title fs-5" id="createModal">Tambahkan Buku</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -128,9 +128,73 @@ Badan Perpustakaan Untag Surabaya
           </div>
         </div>
       </div>
+
+      
+    @if(isset($_GET['id']))
+    <div class="modal fade show" id="updateModal" tabindex="-1" aria-labelledby="updateModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form method="POST" action="/dashboard/pengolahan/buku/update">@csrf
+                <input type="hidden" name="id" value="{{ $detail_buku->id }}">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="updateModal">Update Buku</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="label" class="form-label">Label</label>
+                        <input type="text" class="form-control" id="label" name="label" value="{{ $detail_buku->label }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="judul" class="form-label">Judul</label>
+                        <input type="text" class="form-control" id="judul" name="judul" value="{{ $detail_buku->judul }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pengarang" class="form-label">Pengarang</label>
+                        <input type="text" class="form-control" id="pengarang" name="pengarang" value="{{ $detail_buku->pengarang }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="impresium" class="form-label">Impresium</label>
+                        <input type="text" class="form-control" id="impresium" name="impresium" value="{{ $detail_buku->impresium }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="kolasi" class="form-label">Kolasi</label>
+                        <input type="text" class="form-control" id="kolasi" name="kolasi" value="{{ $detail_buku->kolasi }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="isbn_issn" class="form-label">ISBN/ISSN</label>
+                        <input type="text" class="form-control" id="isbn_issn" name="isbn_issn" value="{{ $detail_buku->isbn_issn }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="jumlah" class="form-label">Jumlah</label>
+                        <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ $detail_buku->jumlah }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    @endif
+
 @endsection
 
 @section('script')
+    @if(isset($_GET['id']))
+        <script type="text/javascript">
+            $(document).ready( function () {
+                $('#updateModal').modal('toggle');
+                $('#updateModal').modal('show');
+                $('#updateModal').modal('hide');
+                $('#updateModal').on('hide.bs.modal', function (e) {
+                    setTimeout(function() {window.location.href = "/dashboard/pengolahan/buku";}, 100);                    
+                })
+            } );
+        </script>
+    @endif
     <script type="text/javascript">
         $(document).ready( function () {
             $('#table').DataTable();

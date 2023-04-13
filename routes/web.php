@@ -1,9 +1,13 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Illuminate\Support\Str;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChangeSidebarController;
 use App\Http\Controllers\BukuController;
+use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,11 +26,18 @@ Route::get('/', function () {
     return view('landing');
 });
 
+Route::get('/dashboard/pengolahan/buku/showQR/{label}', function($label){
+    return response(view('components.printBarcode', [
+        "label" => $label,
+    ]), 200);
+});
+
 Route::middleware('auth')->group(function() {
     Route::controller(BukuController::class)->group(function(){
         Route::get('/dashboard/pengolahan/buku', 'read');
         Route::post('/dashboard/pengolahan/buku/create', 'create');
         Route::post('/dashboard/pengolahan/buku/delete', 'delete');
+        Route::post('/dashboard/pengolahan/buku/update', 'update');
     });
 });
 
@@ -69,21 +80,21 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route::get('/testbarcode', function(){
-//     echo DNS2D::getBarcodeHTML('Hello World', 'QRCODE');
-//     echo '<br><br><br>';
+Route::get('/testbarcode', function(){
+    echo DNS2D::getBarcodeHTML('Hello World', 'QRCODE');
+    echo '<br><br><br>';
     
-//     echo '<img src="data:image/png;base64,' . DNS2D::getBarcodePNG('Hello World', 'QRCODE', 10, 10) . '" alt="barcode"   />';
-//     echo '<br><br><br>';
+    echo '<img src="data:image/png;base64,' . DNS2D::getBarcodePNG('Hello World', 'QRCODE', 10, 10) . '" alt="barcode"   />';
+    echo '<br><br><br>';
 
-//     echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG('HELLO WORLD', 'C39', 2,100) . '" alt="barcode"   />';
-//     echo '<br><br><br>';
+    echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG('HELLO WORLD', 'C39', 2,100) . '" alt="barcode"   />';
+    echo '<br><br><br>';
     
-//     echo '
-//     <a href="data:image/png;base64,' . DNS1D::getBarcodePNG('HELLO WORLD', 'C39', 2,100) . '" download="'.'HELLO WORLD'.'.png">
-//         <img src="data:image/png;base64,' . DNS1D::getBarcodePNG('HELLO WORLD', 'C39', 2,100) . '" alt="embedded folder icon"/>
-//     </a>
-//     ';
-// });
+    echo '
+    <a href="data:image/png;base64,' . DNS1D::getBarcodePNG('HELLO WORLD', 'C39', 2,100) . '" download="'.'HELLO WORLD'.'.png">
+        <img src="data:image/png;base64,' . DNS1D::getBarcodePNG('HELLO WORLD', 'C39', 2,100) . '" alt="embedded folder icon"/>
+    </a>
+    ';
+});
 
 require __DIR__.'/auth.php';
