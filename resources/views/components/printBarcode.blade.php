@@ -10,44 +10,47 @@
         <link href="/main_display/img/favicon.ico" rel="icon">
         <link href="/main_display/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
         <link href="/main_display/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+        <style>
+            @media print {
+                body script, #btn{ display:none;}
+                #capture * {display:flex; page-break-inside: avoid;}
+            }
+        </style>
     </head>
 
-    <body>
-        
-        <div id="capture" class="p-2" style="display: inline-flex">
-            <div class="row" style="border: 3px solid black; width:auto; margin:0px; width:600px;">
-                <div class="col-4 p-4" style="border-right: 3px solid black; width:auto; margin:0px;width:45%;">
-                    <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($label, 'QRCODE', 10,10) }}" alt="barcode"/>
-                </div>
-                <div class="col-6" style="width:55%;">
-                    <div class="row d-flex justify-content-center p-2" style="border-bottom: 3px solid black; width:auto; padding:0px; text-align:center; font-size:20px;">
-                        BADAN PERPUSTAKAAN<br>
-                        UNIVERSITAS 17 AGUSTUS 1945<br>
-                        SURABAYA
+    <body onload="window.print()">
+        <div id="btn" class="container ms-0">
+            <a class="btn btn-secondary mt-2" id="btn" href="/dashboard/pengolahan/cetak-label" style="width:685px;">Back</a>
+            <button class="btn btn-primary mt-2" id="btn" onclick="window.print()" style="width:685px;">Print</button>
+        </div>
+        <div id="capture" class="p-2 " {{-- style="display: inline-flex" --}}>
+            @foreach($request->labels as $key=>$label)
+                @if($key%4 == 0 && $key!=0)</div> @endif
+                @if($key%4 == 0) <?php $countRow = 0; ?> <div class="row ms-1"> @endif
+                    <?php $countRow++; $judul = explode("-", $label)[0]; $qr = explode("-", $label)[1] ?>
+                    {{-- <div class="col">
+                        {{ $countRow }}
+                    </div> --}}
+
+                    <div class="row p-0" style="border: 2px solid black; width:170px; margin:1px;">
+                        {{-- <div class="col"> --}}
+                            <div class="row" style="border-bottom: 2px solid black; margin:0px;"><b class="d-flex justify-content-center">{{ $judul }}</b>
+                            </div>
+                            <div class="row mt-2 ps-2 pe-3">
+                                <center><img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($qr, 'QRCODE', 6.8,6.8) }}" alt="barcode"/></center>
+                            </div>
+                            <div class="row p-0 m-0"> <b class="d-flex justify-content-center">{{ $qr }}</b> </div>
+                        {{-- </div> --}}
                     </div>
-                    <div class="row p-2" style="text-align:center; position:inherit;">
-                        <h4><b>{{ $label }}</b></h4>
-                    </div>
-                </div>
-            </div>
+
+            @endforeach
+
+            @if($countRow < 4) @for($countRow; $countRow<4; $countRow++) <div class="col"></div> @endfor @endif
         </div>
 
         
         <script src="/main_display/vendor/jquery/jquery-3.6.4.min.js"></script>
         <script src="/main_display/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="/main_display/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="/main_display/vendor/html2canvas/html2canvas.min.js"></script>
-        <script src="/main_display/vendor/html2canvas/FileSaver.js"></script>
-
-        <script>
-            html2canvas(document.querySelector("#capture")).then(canvas => {
-                canvas.toBlob(function(blob) {
-                    saveAs(blob, "{{ $label }}.png");
-                    window.location.href = "/dashboard/pengolahan/buku";
-                });
-            });
-        </script>
     </body>
 
 </html>

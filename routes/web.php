@@ -35,16 +35,24 @@ Route::get('/dashboard/pengolahan/buku/showQR/{label}', function($label){
 Route::middleware('auth')->group(function() {
     Route::controller(BukuController::class)->group(function(){
         Route::get('/dashboard/pengolahan/buku', 'read');
+        Route::get('/dashboard/pengolahan/buku/update/{id}', 'updateView');
+        Route::get('/dashboard/pengolahan/buku/add', 'createForm');
         Route::post('/dashboard/pengolahan/buku/create', 'create');
         Route::post('/dashboard/pengolahan/buku/delete', 'delete');
         Route::post('/dashboard/pengolahan/buku/update', 'update');
+
+        Route::get('/dashboard/pengolahan/cetak-label', 'cetak_label');
+        Route::post('/dashboard/pengolahan/cetak-label', 'cetak_label_print');
     });
 });
 
+// Route::get('/dashboard', function () {
+//     return view('dashboard.dashboard.index', [
+//         // 'errorMessage' => "Test"
+//     ]);
+// })->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/dashboard', function () {
-    return view('dashboard.dashboard.index', [
-        // 'errorMessage' => "Test"
-    ]);
+    return redirect('/dashboard/pengolahan/buku');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::view('/dashboard/{sub}', 'dashboard.example');

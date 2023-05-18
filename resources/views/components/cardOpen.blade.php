@@ -1,9 +1,11 @@
-<div class="card container cardDark" 
+<div class="card cardDark" 
     style="
-        width: 90%; 
-        max-height: 100%; 
-        margin-top: 2rem;
+        width: 95%; 
+        max-height: 95%; 
+        margin-top: 2vh;
         overflow: auto;        
         display: block;
+        left:50%;
+        transform: translateX(-50%);
     ">
     <div class="card-body cardDark mb-3">

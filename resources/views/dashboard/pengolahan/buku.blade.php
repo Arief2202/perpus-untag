@@ -21,7 +21,7 @@ Badan Perpustakaan Untag Surabaya
                 <h4 class="card-title"><b>Pengolahan Buku</b></h4>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
-               <button class="btn btn-primary me-4" data-bs-toggle="modal" data-bs-target="#createModal">Tambahkan Data</button>
+               <a class="btn btn-primary me-4" href="/dashboard/pengolahan/buku/add">Tambahkan Data</a>
             </div>
         </div>
         <div style="max-height: 70vh; overflow-y:auto;">
@@ -32,7 +32,7 @@ Badan Perpustakaan Untag Surabaya
                             <thead class="thead">
                                 <tr>
                                 <th class="th" scope="col">No</th>
-                                <th class="th" scope="col">Label</th>
+                                {{-- <th class="th" scope="col">Label</th> --}}
                                 <th class="th" scope="col">Judul</th>
                                 <th class="th" scope="col">Pengarang</th>
                                 <th class="th" scope="col">Impresium</th>
@@ -46,7 +46,7 @@ Badan Perpustakaan Untag Surabaya
                                 @foreach($bukus as $index=>$buku)
                                 <tr>
                                 <td>{{ $index+1 }}</td>
-                                <td>{{ $buku->label }}</td>
+                                {{-- <td>{{ $buku->label }}</td> --}}
                                 <td>{{ $buku->judul }}</td>
                                 <td>{{ $buku->pengarang }}</td>
                                 <td>{{ $buku->impresium }}</td>
@@ -55,21 +55,7 @@ Badan Perpustakaan Untag Surabaya
                                 <td>{{ $buku->jumlah }}</td>
                                 <td>
                                     <div class="row">
-                                        {{-- <div class="col-2">
-                                            <a class="btn btn-primary" style="width:30px; height:30px; padding:0px;"><i class='bx bx-show' style="font-size: 20px;margin:3px;"></i></a>
-                                        </div> --}}
-                                        <div class="col-2">
-                                            <a href="/dashboard/pengolahan/buku?id={{ $buku->id }}" class="btn btn-primary" style="width:30px; height:30px; padding:0px;"><i class='bx bx-pencil' style="font-size: 20px;margin:3px;"></i></a>
-                                        </div>
-                                        <div class="col-2">
-                                            <form method="POST" action="/dashboard/pengolahan/buku/delete">@csrf
-                                                <input type="hidden" name="id" value="{{ $buku->id }}">
-                                                <button type="submit" class="btn btn-primary" style="width:30px; height:30px; padding:0px;"><i class='bx bxs-trash' style="font-size: 20px;margin:3px;"></i></a>
-                                            </form>
-                                        </div>
-                                        <div class="col-2">
-                                            <a href="http://perpus.eepis.tech/dashboard/pengolahan/buku/showQR/{{ $buku->label }}" class="btn btn-primary" style="width:30px; height:30px; padding:0px;"><i class='bx bxs-cloud-download' style="font-size: 20px;margin:3px;"></i></a>
-                                        </div>
+                                        <a href="/dashboard/pengolahan/buku/update/{{ $buku->id }}" class="btn btn-primary" style="width:30px; height:30px; padding:0px;"><i class='bx bx-pencil' style="font-size: 20px;margin:3px;"></i></a>
                                     </div>
                                 </td>
                                 </tr>
