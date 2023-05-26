@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('pengarang')->nullable();
             $table->string('impresium')->nullable();
             $table->string('kolasi')->nullable();
-            $table->integer('isbn_issn')->nullable();
+            $table->bigInteger('isbn_issn')->nullable();
             $table->string('no_inventaris')->nullable();
             $table->string('prefix');
             $table->integer('length_code')->default(5);

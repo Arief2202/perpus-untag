@@ -18,28 +18,43 @@
         </style>
     </head>
 
-    <body onload="window.print()">
+    {{-- <body onload="window.print()"> --}}
+    <body>
         <div id="btn" class="container ms-0">
-            <a class="btn btn-secondary mt-2" id="btn" href="/dashboard/pengolahan/cetak-label" style="width:685px;">Back</a>
-            <button class="btn btn-primary mt-2" id="btn" onclick="window.print()" style="width:685px;">Print</button>
+            <a class="btn btn-secondary mt-2" id="btn" href="/dashboard/pengolahan/cetak-label" style="width:700px;">Back</a>
+            <button class="btn btn-primary mt-2" id="btn" onclick="window.print()" style="width:700px;">Print</button>
         </div>
         <div id="capture" class="p-2 " {{-- style="display: inline-flex" --}}>
             @foreach($request->labels as $key=>$label)
-                @if($key%4 == 0 && $key!=0)</div> @endif
-                @if($key%4 == 0) <?php $countRow = 0; ?> <div class="row ms-1"> @endif
+                @if($key%5 == 0 && $key!=0)</div> @endif
+                @if($key%5 == 0) <?php $countRow = 0; ?> <div class="row ms-1"> @endif
                     <?php $countRow++; $judul = explode("-", $label)[0]; $qr = explode("-", $label)[1] ?>
                     {{-- <div class="col">
                         {{ $countRow }}
                     </div> --}}
 
-                    <div class="row p-0" style="border: 2px solid black; width:170px; margin:1px;">
+                    <div class="row p-0" style="border: 2px solid black; width:138px; margin:1px;">
                         {{-- <div class="col"> --}}
-                            <div class="row" style="border-bottom: 2px solid black; margin:0px;"><b class="d-flex justify-content-center">{{ $judul }}</b>
-                            </div>
+                            @if(strlen($judul) <= 18)
+                            <div class="row" style="margin:0px; padding:0px; font-size:9pt; white-space: nowrap;overflow: hidden;text-overflow: ellipsis"><b class="d-flex justify-content-center">{{ $judul }}</b></div>
+                            @else
+                                <div class="row" style="margin:0px; padding:0px; font-size:9pt; white-space: nowrap;overflow: hidden;text-overflow: ellipsis"><b class="d-flex justify-content-center">
+                                    @for($a=0; $a<18; $a++){{ $judul[$a] }}@endfor...
+                                </b></div>
+                            @endif
+                            <div  style="border-top: 2px solid black;"></div>
                             <div class="row mt-2 ps-2 pe-3">
-                                <center><img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($qr, 'QRCODE', 6.8,6.8) }}" alt="barcode"/></center>
+                                <center><img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($qr, 'QRCODE', 5.5,5.5) }}" alt="barcode"/></center>
                             </div>
-                            <div class="row p-0 m-0"> <b class="d-flex justify-content-center">{{ $qr }}</b> </div>
+                            
+                            @if(strlen($qr) <= 18)
+                            <div class="row" style="margin:0px; padding:0px; font-size:9pt; white-space: nowrap;overflow: hidden;text-overflow: ellipsis"><b class="d-flex justify-content-center">{{ $qr }}</b></div>
+                            @else
+                                <div class="row" style="margin:0px; padding:0px; font-size:9pt; white-space: nowrap;overflow: hidden;text-overflow: ellipsis"><b class="d-flex justify-content-center">
+                                    @for($a=0; $a<15; $a++){{ $qr[$a] }}@endfor...
+                                </b></div>
+                            @endif
+                            {{-- <div class="row p-0 m-0" style=" font-size:9pt;"> <b class="d-flex justify-content-center">{{ $qr }}</b> </div> --}}
                         {{-- </div> --}}
                     </div>
 

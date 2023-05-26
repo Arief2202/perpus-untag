@@ -6,6 +6,18 @@ Badan Perpustakaan Untag Surabaya
 @endsection
 
 @section('content')
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            /* display: none; <- Crashes Chrome on hover */
+            -webkit-appearance: none;
+            margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+        }
+
+        input[type=number] {
+            -moz-appearance:textfield; /* Firefox */
+        }
+    </style>
     @include('components.cardOpen')
     <form method="POST" action="/dashboard/pengolahan/buku/update">@csrf
         <input type="hidden" id="id" name="id" value="{{ $buku->id }}">
@@ -26,7 +38,7 @@ Badan Perpustakaan Untag Surabaya
                 <label for="pengarang" class="form-label">Pengarang</label>
                 <input type="text" class="form-control" id="pengarang" name="pengarang" value="{{ $buku->pengarang }}">
             </div>
-            <div class="mb-3">
+            <div class="mb-3 col-4">
                 <label for="impresium" class="form-label">Impresium</label>
                 <input type="text" class="form-control" id="impresium" name="impresium" value="{{ $buku->impresium }}">
             </div>
@@ -71,9 +83,15 @@ Badan Perpustakaan Untag Surabaya
                     </div>
                 </div>
             </div>
-            <div class="mb-3">
-                <label for="bahasa" class="form-label">Bahasa</label>
-                <input type="text" class="form-control" id="bahasa" name="bahasa" value="{{ $buku->bahasa }}">
+            
+            <div class="form-group mb-3">
+                <label for="exampleFormControlSelect1">Bahasa</label>
+                <select class="form-control" id="exampleFormControlSelect1">
+                    <option></option>
+                    <option value="indonesia" @if($buku->bahasa == "indonesia") selected @endif>Indonesia</option>
+                    <option value="inggris" @if($buku->bahasa == "inggris") selected @endif>Inggris</option>
+                    <option value="jepang" @if($buku->bahasa == "jepang") selected @endif>Jepang</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="prodi" class="form-label">Prodi</label>
