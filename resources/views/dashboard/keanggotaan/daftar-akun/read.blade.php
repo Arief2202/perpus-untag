@@ -18,7 +18,7 @@ Badan Perpustakaan Untag Surabaya
         @endif
         <div class="row mb-3">
             <div class="col-md-6">
-                <h4 class="card-title"><b>Tittle</b> Sub Tittle</h4>
+                <h4 class="card-title"><b>Akun</b> Read Keanggotaan</h4>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
                <button class="btn btn-primary me-4">Tambahkan Data</button>

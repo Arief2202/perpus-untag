@@ -98,7 +98,7 @@
   text-decoration: none;
 }
 .sidebar .nav-links li a .link_name{
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   color: var(--text-color);
   transition: all 0.4s ease;

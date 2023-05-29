@@ -32,6 +32,15 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
+    public function storeSirkulasi(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticate();
+
+        $request->session()->regenerate();
+
+        return redirect('/sirkulasi/mandiri/select');
+    }
+
     /**
      * Destroy an authenticated session.
      */
@@ -44,5 +53,16 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function destroySirkulasi(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/sirkulasi/mandiri/login');
     }
 }

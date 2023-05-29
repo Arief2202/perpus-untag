@@ -13,12 +13,7 @@
             </div>
             <div class="name-job">
             <div class="profile_name">{{ Auth::user()->name }}</div>
-            <div class="job">
-                {{Auth::user()->role == 0 ? 'Guest' : ''}}
-                {{Auth::user()->role == 1 ? 'Admin' : ''}}
-                {{Auth::user()->role == 2 ? 'Super Admin' : ''}}
-                {{Auth::user()->role != 0 && Auth::user()->role != 1 && Auth::user()->role != 2 ? 'Unknown' : ''}}
-            </div>
+            <div class="job">{{Auth::user()->keanggotaan->nama_keanggotaan}}</div>
             </div>
         </div>        
         </li>
@@ -80,7 +75,7 @@
             </ul>
         </li> --}}
 
-        @if(Auth::user()->role == 1)
+        @if(Auth::user()->keanggotaan_id == 2)
         <li class="{{Request::segment(2) == 'pengolahan'? 'active' : ''}}">
             <div class="iocn-link">
                 <a href="#">
@@ -92,11 +87,82 @@
             <ul class="sub-menu">
                 <li><a class="link_name">Pengolahan</a></li>
                 <li><a href="/dashboard/pengolahan/buku">Buku</a></li>
-                {{-- <li><a href="/dashboard/pengolahan/non-buku">Non Buku</a></li>
-                <li><a href="/dashboard/pengolahan/tugas-akhir">Tugas Akhir</a></li> --}}
                 <li><a href="/dashboard/pengolahan/cetak-label">Cetak Label</a></li>
             </ul>
         </li>
+        <li class="{{Request::segment(2) == 'sirkulasi'? 'active' : ''}}">
+            <div class="iocn-link">
+                <a href="#">
+                    <i class='bx bxs-cog icon'></i>
+                    <span class="link_name">Sirkulasi</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow' ></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name">Sirkulasi</a></li>
+                <li><a href="/dashboard/sirkulasi/aktif">Peminjaman Aktif</a></li>
+                <li><a href="/dashboard/sirkulasi/history">History Peminjaman</a></li>
+            </ul>
+        </li>
+        <li class="{{Request::segment(2) == 'keanggotaan'? 'active' : ''}}">
+            <div class="iocn-link">
+                <a href="#">
+                    <i class='bx bxs-cog icon'></i>
+                    <span class="link_name">Keanggotaan</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow' ></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name">Keanggotaan</a></li>
+                <li><a href="/dashboard/keanggotaan/daftar-keanggotaan">Daftar Keanggotaan</a></li>
+                <li><a href="/dashboard/keanggotaan/daftar-akun">Daftar Akun</a></li>
+            </ul>
+        </li>
+        @endif
+        @if(Auth::user()->keanggotaan_id == 3)
+            <li class="{{Request::segment(3) == 'peminjaman-terkini'? 'active' : ''}}">
+                <a href="/dashboard/user/peminjaman-terkini">
+                    <i class='bx bx-chart icon'></i>
+                    <span class="link_name">Peminjaman Terkini</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/dashboard/user/peminjaman-terkini" >Peminjaman Terkini</a></li>
+                </ul>
+            </li>
+            <li class="{{Request::segment(3) == 'history-peminjaman'? 'active' : ''}}">
+                <a href="/dashboard/user/history-peminjaman">
+                    <i class='bx bx-chart icon'></i>
+                    <span class="link_name">History Peminjaman</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/dashboard/user/history-peminjaman">History Peminjaman</a></li>
+                </ul>
+            </li>
+            <li class="{{Request::segment(3) == 'account'? 'active' : ''}}">
+                <a href="/dashboard/user/account">
+                    <i class='bx bx-chart icon'></i>
+                    <span class="link_name">Akun Saya</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/dashboard/user/account">Akun Saya</a></li>
+                </ul>
+            </li>
+
+            {{-- <li class="{{Request::segment(2) == 'sirkulasi'? 'active' : ''}}">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bx-refresh icon' ></i>
+                        <span class="link_name">Sirkulasi</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow' ></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name">Sirkulasi</a></li>
+                    <li><a href="/dashboard/sirkulasi/buku">Buku</a></li>
+                    <li><a href="/dashboard/sirkulasi/anggota">Anggota</a></li>
+                    <li><a href="/dashboard/sirkulasi/tugas-akhir">Tugas Akhir</a></li>
+                </ul>
+            </li> --}}
         @endif
 
         

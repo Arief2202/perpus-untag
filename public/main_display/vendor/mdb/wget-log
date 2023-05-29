@@ -1,0 +1,11 @@
+--2023-05-28 15:06:20--  https://fonts.googleapis.com/css?family=Roboto:300,400,500,700
+Resolving fonts.googleapis.com (fonts.googleapis.com)... 2404:6800:4003:c04::5f, 74.125.130.95
+Connecting to fonts.googleapis.com (fonts.googleapis.com)|2404:6800:4003:c04::5f|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/css]
+Saving to: ‘css?family=Roboto:300,400,500,700’
+
+css?family=Roboto:300,400,500,700                      [<=>                                                                                                            ]       0  --.-KB/s               css?family=Roboto:300,400,500,700                      [ <=>                                                                                                           ]     724  --.-KB/s    in 0s      
+
+2023-05-28 15:06:20 (4,58 MB/s) - ‘css?family=Roboto:300,400,500,700’ saved [724]
+

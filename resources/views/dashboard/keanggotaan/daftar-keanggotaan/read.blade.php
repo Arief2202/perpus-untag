@@ -18,10 +18,10 @@ Badan Perpustakaan Untag Surabaya
         @endif
         <div class="row mb-3">
             <div class="col-md-6">
-                <h4 class="card-title"><b>Tittle</b> Sub Tittle</h4>
+                <h4 class="card-title"><b>Keanggotaan</b></h4>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
-               <button class="btn btn-primary me-4">Tambahkan Data</button>
+               <a class="btn btn-primary me-4" href="/dashboard/keanggotaan/daftar-keanggotaan/create">Tambahkan Data</a>
             </div>
         </div>
         <div style="max-height: 70vh; overflow-y:auto;">
@@ -32,15 +32,30 @@ Badan Perpustakaan Untag Surabaya
                             <thead class="thead">
                                 <tr>
                                 <th class="th" scope="col">No</th>
-                                <th class="th" scope="col">Row 1</th>
-                                <th class="th" scope="col">Row 2</th>
-                                <th class="th" scope="col">Row 3</th>
-                                <th class="th" scope="col">Row 4</th>
-                                <th class="th" scope="col">Row 5</th>
+                                <th class="th" scope="col">Nama Keanggotaan</th>
+                                <th class="th" scope="col">Max Peminjaman</th>
+                                <th class="th" scope="col">Masa Aktif Peminjaman</th>
+                                <th class="th" scope="col">Denda per Hari</th>
+                                <th class="th" scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @for($a = 0; $a < 100; $a++)
+                                @foreach($keanggotaans as $index=>$keanggotaan)
+                                    <tr>
+                                        <td>{{ $index+1 }}</td>
+                                        {{-- <td>{{ $buku->label }}</td> --}}
+                                        <td>{{ $keanggotaan->nama_keanggotaan }}</td>
+                                        <td>{{ $keanggotaan->max_pinjam }} Pcs</td>
+                                        <td>{{ $keanggotaan->masa_aktif_pinjam }} Hari</td>
+                                        <td>Rp. {{ $keanggotaan->denda_per_hari }}</td>
+                                        <td>
+                                            <div class="row">
+                                                <a href="/dashboard/keanggotaan/daftar-keanggotaan/update/{{ $keanggotaan->id }}" class="btn btn-primary" style="width:30px; height:30px; padding:0px;"><i class='bx bx-pencil' style="font-size: 20px;margin:3px;"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                {{-- @for($a = 0; $a < 100; $a++)
                                 <tr>
                                 <td>{{ $a+1 }}</td>
                                 <td>Column {{ $a+1 }}</td>
@@ -49,7 +64,7 @@ Badan Perpustakaan Untag Surabaya
                                 <td>Column {{ $a+1 }}</td>
                                 <td>Column {{ $a+1 }}</td>
                                 </tr>
-                                @endfor
+                                @endfor --}}
                             </tbody>
                         </table>
                     </div>

@@ -18,7 +18,7 @@ Badan Perpustakaan Untag Surabaya
         @endif
         <div class="row mb-3">
             <div class="col-md-6">
-                <h4 class="card-title"><b>Tittle</b> Sub Tittle</h4>
+                <h4 class="card-title"><b>{{ $sub }}</b> @if(isset($sub2)) - {{ $sub2 }} @endif</h4>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
                <button class="btn btn-primary me-4">Tambahkan Data</button>

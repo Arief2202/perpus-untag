@@ -4,9 +4,13 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Illuminate\Support\Str;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChangeSidebarController;
+use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\PengembalianController;
+use App\Http\Controllers\KeanggotaanController;
 use App\Http\Controllers\BukuController;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 
 
 /*
@@ -26,13 +30,38 @@ Route::get('/', function () {
     return view('landing');
 });
 
-Route::get('/dashboard/pengolahan/buku/showQR/{label}', function($label){
-    return response(view('components.printBarcode', [
-        "label" => $label,
-    ]), 200);
+// Route::get('/dashboard/pengolahan/buku/showQR/{label}', function($label){
+//     return response(view('components.printBarcode', [
+//         "label" => $label,
+//     ]), 200);
+// });
+
+
+Route::get('/sirkulasi/mandiri/login', function(){
+    if(Auth::user()) return redirect('/sirkulasi/mandiri/select');
+    return view('sirkulasi.login');
+});
+Route::get('/sirkulasi/mandiri/select', function(){
+    if(!Auth::user()) return redirect('/sirkulasi/mandiri/login');
+    return view('sirkulasi.select');
 });
 
 Route::middleware('auth')->group(function() {
+    Route::controller(PeminjamanController::class)->group(function(){
+        Route::post('/sirkulasi/mandiri/peminjaman/checkout', 'checkout');
+        Route::post('/sirkulasi/mandiri/peminjaman/add', 'addOrder');
+        Route::post('/sirkulasi/mandiri/peminjaman/delete', 'deleteOrder');
+        Route::get('/sirkulasi/mandiri/peminjaman', 'index')->name('sirkulasi.peminjaman');
+        Route::get('/sirkulasi/mandiri/peminjaman/nota', 'nota');
+    });
+    Route::controller(PengembalianController::class)->group(function(){
+        Route::post('/sirkulasi/mandiri/pengembalian/checkout', 'checkout');
+        Route::post('/sirkulasi/mandiri/pengembalian/add', 'addOrder');
+        Route::post('/sirkulasi/mandiri/pengembalian/delete', 'deleteOrder');
+        Route::get('/sirkulasi/mandiri/pengembalian', 'index')->name('sirkulasi.pengembalian');
+        Route::get('/sirkulasi/mandiri/pengembalian/nota', 'nota');
+    });
+
     Route::controller(BukuController::class)->group(function(){
         Route::get('/dashboard/pengolahan/buku', 'read');
         Route::get('/dashboard/pengolahan/buku/update/{id}', 'updateView');
@@ -44,19 +73,42 @@ Route::middleware('auth')->group(function() {
         Route::get('/dashboard/pengolahan/cetak-label', 'cetak_label');
         Route::post('/dashboard/pengolahan/cetak-label', 'cetak_label_print');
     });
+    Route::controller(KeanggotaanController::class)->group(function(){
+        Route::get('/dashboard/keanggotaan/daftar-keanggotaan', 'readKeanggotaanView');
+        Route::get('/dashboard/keanggotaan/daftar-keanggotaan/create', 'createKeanggotaanView');
+        Route::get('/dashboard/keanggotaan/daftar-keanggotaan/update/{id}', 'updateKeanggotaanView');
+        Route::post('/dashboard/keanggotaan/daftar-keanggotaan/create', 'createKeanggotaan');
+        Route::post('/dashboard/keanggotaan/daftar-keanggotaan/delete', 'deleteKeanggotaan');
+        Route::post('/dashboard/keanggotaan/daftar-keanggotaan/update', 'updateKeanggotaan');
+
+        Route::get('/dashboard/keanggotaan/daftar-akun', 'readAkunView');
+        Route::get('/dashboard/keanggotaan/daftar-akun/create', 'createAkunView');
+        Route::get('/dashboard/keanggotaan/daftar-akun/update/{id}', 'updateAkunView');
+        Route::post('/dashboard/keanggotaan/daftar-akun/create', 'createAkun');
+        Route::post('/dashboard/keanggotaan/daftar-akun/delete', 'deleteAkun');
+        Route::post('/dashboard/keanggotaan/daftar-akun/update', 'updateAkun');
+    });
+
+    
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard.dashboard.index', [
-//         // 'errorMessage' => "Test"
-//     ]);
-// })->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/dashboard', function () {
-    return redirect('/dashboard/pengolahan/buku');
+    if(Auth::user()->keanggotaan_id == 3) return redirect('/dashboard/user/peminjaman-terkini');
+    else return redirect('/dashboard/pengolahan/buku');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::view('/dashboard/{sub}', 'dashboard.example');
-Route::view('/dashboard/{sub}/{sub2}', 'dashboard.example');
+
+Route::any('/dashboard/{any}', function(){
+    return view('dashboard.example');
+})->where('any', '.*');
+
+Route::any('/sirkulasi{any}', function(){
+    return redirect('/sirkulasi/mandiri/login');
+})->where('any', '.*');
+
 
 Route::view('/', 'landing');
 
@@ -81,28 +133,5 @@ Route::view('/prosedur/prosedur-peminjaman-buku', 'prosedur.prosedur-peminjaman-
 Route::view('/akses-informasi', 'akses-informasi');
 Route::view('/unduhan', 'unduhan');
 Route::view('/kontak', 'kontak');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::get('/testbarcode', function(){
-    echo DNS2D::getBarcodeHTML('Hello World', 'QRCODE');
-    echo '<br><br><br>';
-    
-    echo '<img src="data:image/png;base64,' . DNS2D::getBarcodePNG('Hello World', 'QRCODE', 10, 10) . '" alt="barcode"   />';
-    echo '<br><br><br>';
-
-    echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG('HELLO WORLD', 'C39', 2,100) . '" alt="barcode"   />';
-    echo '<br><br><br>';
-    
-    echo '
-    <a href="data:image/png;base64,' . DNS1D::getBarcodePNG('HELLO WORLD', 'C39', 2,100) . '" download="'.'HELLO WORLD'.'.png">
-        <img src="data:image/png;base64,' . DNS1D::getBarcodePNG('HELLO WORLD', 'C39', 2,100) . '" alt="embedded folder icon"/>
-    </a>
-    ';
-});
 
 require __DIR__.'/auth.php';

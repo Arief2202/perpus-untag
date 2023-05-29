@@ -114,40 +114,4 @@ Badan Perpustakaan Untag Surabaya
 @endsection
 
 @section('script')
-    <script type="text/javascript">
-        $(document).ready( function () {
-            $("#prefix").on("change keyup paste", function(){
-                changePreview();
-            });
-            $("#length_code").on("change keyup paste", function(){
-                changePreview();
-            });
-            $("#length_code").on("change keyup paste", function(){
-                changePreview();
-            });
-            function changePreview(){
-                var prefix = $("#prefix").val();
-                var length = $("#length_code").val();
-                var numberZero = "";
-                for(let i = 0; i < length; i++){
-                    numberZero += "0";
-                }
-                $('#preview').val(prefix+numberZero);
-            }
-        } );
-    </script>
-    {{-- @if (\Session::has('success'))
-        <script type="text/javascript">
-            $(document).ready( function () {
-            }
-        </script>
-    @endif --}}
-    
-    @if(\Session::has('error'))
-        <script type="text/javascript">
-            $(document).ready( function () {
-                alert('Prefix Telah digunakan oleh buku lain !');
-            } );
-        </script>
-    @endif
 @endsection
