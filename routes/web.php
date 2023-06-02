@@ -118,9 +118,9 @@ Route::middleware('auth')->group(function() {
 });
 
 Route::get('/dashboard', function () {
-    if(Auth::user()->keanggotaan_id == 3) return redirect('/dashboard/user/peminjaman-terkini');
+    if(Auth::user()->keanggotaan_id == 2) return redirect('/dashboard/pengolahan/buku');
     else if(Auth::user()->keanggotaan_id == 1) return redirect('/dashboard/keanggotaan/daftar-akun');
-    else return redirect('/dashboard/pengolahan/buku');
+    else return redirect('/dashboard/user/peminjaman-terkini');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 

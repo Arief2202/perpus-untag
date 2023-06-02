@@ -122,7 +122,7 @@
             </li>
         @endif
 
-        @if(Auth::user()->keanggotaan_id == 3)
+        @if(Auth::user()->keanggotaan_id != 1 && Auth::user()->keanggotaan_id != 2)
             <li class="{{Request::segment(3) == 'peminjaman-terkini'? 'active' : ''}}">
                 <a href="/dashboard/user/peminjaman-terkini">
                     <i class='bx bx-chart icon'></i>
