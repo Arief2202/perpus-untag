@@ -104,21 +104,24 @@
                 <li><a href="/dashboard/sirkulasi/history">History Peminjaman</a></li>
             </ul>
         </li>
-        <li class="{{Request::segment(2) == 'keanggotaan'? 'active' : ''}}">
-            <div class="iocn-link">
-                <a href="#">
-                    <i class='bx bxs-cog icon'></i>
-                    <span class="link_name">Keanggotaan</span>
-                </a>
-                <i class='bx bxs-chevron-down arrow' ></i>
-            </div>
-            <ul class="sub-menu">
-                <li><a class="link_name">Keanggotaan</a></li>
-                <li><a href="/dashboard/keanggotaan/daftar-keanggotaan">Daftar Keanggotaan</a></li>
-                <li><a href="/dashboard/keanggotaan/daftar-akun">Daftar Akun</a></li>
-            </ul>
-        </li>
         @endif
+        @if(Auth::user()->keanggotaan_id == 1 || Auth::user()->keanggotaan_id == 2)
+            <li class="{{Request::segment(2) == 'keanggotaan'? 'active' : ''}}">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bxs-cog icon'></i>
+                        <span class="link_name">Keanggotaan</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow' ></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name">Keanggotaan</a></li>
+                    <li><a href="/dashboard/keanggotaan/daftar-keanggotaan">Daftar Keanggotaan</a></li>
+                    <li><a href="/dashboard/keanggotaan/daftar-akun">Daftar Akun</a></li>
+                </ul>
+            </li>
+        @endif
+
         @if(Auth::user()->keanggotaan_id == 3)
             <li class="{{Request::segment(3) == 'peminjaman-terkini'? 'active' : ''}}">
                 <a href="/dashboard/user/peminjaman-terkini">

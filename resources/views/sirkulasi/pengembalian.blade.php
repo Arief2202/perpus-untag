@@ -39,7 +39,7 @@
                         @if(!Auth::user()->foto) <img src="/img/default_profile.jpg" width="70%">
                         @endif
                     </div>
-                    <div class="col-sm mt-3">
+                    <div class="col-sm">
                         <div class="mb-2" style="font-size:16px; font-weight:500;">Nomor Anggota<pre style="display: inline;"> </pre>: {{ Auth::user()->id }}</div>
                         <div class="mb-2" style="font-size:16px; font-weight:500;">Nama Anggota<pre style="display: inline;">  </pre>: {{ Auth::user()->name }}</div>
                         <div class="mb-2" style="font-size:16px; font-weight:500;">Email Anggota <pre style="display: inline;">  </pre>: {{ Auth::user()->email }}</div>
@@ -48,16 +48,19 @@
                 </div>
                 <div class="row mb-3 mt-3">
                     <div class="col-4">
-                        <form action="/sirkulasi/mandiri/pengembalian/add" method="POST">@csrf
+                        <form action="/sirkulasi/mandiri/pengembalian/add" method="POST" id="formLabel">@csrf
                             <div class="input-group">
                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                <input type="text" class="form-control" placeholder="Scan Label QR" aria-label="Scan Label QR" name="label" aria-describedby="button-addon2" required>
-                                <button class="btn btn-success" type="submit" id="button-addon1">Tambahkan</button>
+                                <input type="text" class="form-control" placeholder="Scan Label QR" aria-label="Scan Label QR" name="label" aria-describedby="button-addon2" id="inputLabel" required>
+                                <button class="btn btn-success" type="submit" id="button-addon1" id="submitLabel">Tambahkan</button>
                             </div>
                         </form>
                         @if (\Session::has('error') && \Session::has('message'))
                             <div id="alert" class="alert mt-2 @if (\Session::get('error') == false) alert-success @else alert-danger @endif" style="font-size:15px;">{!! \Session::get('message') !!}</div>
                         @endif
+                    </div>   
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="startScan()">Open Camera</button>
                     </div>   
                     <div class="col">
                         <div class="d-flex justify-content-end">
@@ -80,6 +83,9 @@
                                 <th>Nomor Kode</th>
                                 <th>Judul</th>
                                 <th>Pengarang</th>
+                                <th>Tanggal Pinjam</th>
+                                <th>Jatuh Tempo</th>
+                                <th>Terlambat</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -90,6 +96,15 @@
                                 <td>{{ $peminjaman->copy_number }}</td>
                                 <td>{{ $peminjaman->buku->judul }}</td>
                                 <td>{{ $peminjaman->buku->pengarang }}</td>
+                                <?php
+                                    $later = new DateTime();
+                                    $earlier = new DateTime(date('d-m-Y', strtotime($peminjaman->created_at.'+'.Auth::user()->keanggotaan->masa_aktif_pinjam.' day')));
+                                    if($later > $earlier) $telat = $later->diff($earlier)->format("%a");
+                                    else $telat = 0;
+                                ?>
+                                <td>{{ $peminjaman->created_at->format('d-M-Y') }}</td>
+                                <td><div class="alert alert-{{ $later > $earlier ? 'danger' : 'success' }} d-flex justify-content-center" style="margin:0;padding:0;width:120px;">{{ $peminjaman->created_at->addDays($peminjaman->user->keanggotaan->masa_aktif_pinjam)->format('d-M-Y') }}</div></td>
+                                <td>{{ $telat }} Hari</td>
                                 <td>
                                     <form action="/sirkulasi/mandiri/pengembalian/delete" method="POST">@csrf
                                         <input type="hidden" name="id" value="{{ $peminjaman->id }}">
@@ -113,6 +128,7 @@
                                 <th>Judul</th>
                                 <th>Pengarang</th>
                                 <th>Tanggal Pinjam</th>
+                                <th>Jatuh Tempo</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -122,7 +138,12 @@
                                 <td>{{ $peminjaman->copy_number }}</td>
                                 <td>{{ $peminjaman->buku->judul }}</td>
                                 <td>{{ $peminjaman->buku->pengarang }}</td>
-                                <td>{{ $peminjaman->created_at->toDateString() }}</td>
+                                <td>{{ $peminjaman->created_at->format('d-M-Y') }}</td>
+                                <?php
+                                    $later = new DateTime();
+                                    $earlier = new DateTime(date('d-m-Y', strtotime($peminjaman->created_at.'+'.Auth::user()->keanggotaan->masa_aktif_pinjam.' day')));
+                                ?>
+                                <td><div class="alert alert-{{ $later > $earlier ? 'danger' : 'success' }} d-flex justify-content-center" style="margin:0;padding:0;width:120px;">{{ $peminjaman->created_at->addDays($peminjaman->user->keanggotaan->masa_aktif_pinjam)->format('d-M-Y') }}</div></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -132,11 +153,53 @@
             </div>
         </div>
     </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+              <a type="button" class="btn-close" href="/sirkulasi/mandiri/peminjaman"></a>
+            </div>
+            <div class="modal-body">    
+                <div class="col">
+                    <div id="reader" width="10px"></div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <script src="/main_display/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="/main_display/vendor/mdb/mdb.min.js"></script>
     <script src="/main_display/vendor/jquery/jquery-3.6.4.min.js"></script>
     <script src="/main_display/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/main_display/vendor/html5-qrcode/html5-qrcode.min.js"></script>
+    <script type="text/javascript">    
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader",
+            { fps: 10, qrbox: {width: 100, height: 100} },
+            /* verbose= */ false);
+
+        function onScanSuccess(decodedText, decodedResult) {
+            // handle the scanned code as you like, for example:
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+            html5QrcodeScanner.pause(true)
+            $('#inputLabel').val(decodedText);
+            $('#formLabel').submit();
+        }
+
+        function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning.
+            // for example:
+            // console.warn(`Code scan error = ${error}`);
+        }
+
+        function startScan(){           
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        }
+    </script>
     <script type="text/javascript">
         $(document).ready( function () {
             $('#table').DataTable();

@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChangeSidebarController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PengembalianController;
+use App\Http\Controllers\SirkulasiController;
 use App\Http\Controllers\KeanggotaanController;
 use App\Http\Controllers\BukuController;
 use Illuminate\Http\Request;
@@ -80,7 +81,7 @@ Route::middleware('auth')->group(function() {
         Route::post('/dashboard/keanggotaan/daftar-keanggotaan/create', 'createKeanggotaan');
         Route::post('/dashboard/keanggotaan/daftar-keanggotaan/delete', 'deleteKeanggotaan');
         Route::post('/dashboard/keanggotaan/daftar-keanggotaan/update', 'updateKeanggotaan');
-
+        
         Route::get('/dashboard/keanggotaan/daftar-akun', 'readAkunView');
         Route::get('/dashboard/keanggotaan/daftar-akun/create', 'createAkunView');
         Route::get('/dashboard/keanggotaan/daftar-akun/update/{id}', 'updateAkunView');
@@ -88,15 +89,37 @@ Route::middleware('auth')->group(function() {
         Route::post('/dashboard/keanggotaan/daftar-akun/delete', 'deleteAkun');
         Route::post('/dashboard/keanggotaan/daftar-akun/update', 'updateAkun');
     });
-
     
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::controller(SirkulasiController::class)->group(function(){
+        Route::get('/dashboard/user/peminjaman-terkini', 'userPeminjamanTerkini');
+        Route::get('/dashboard/user/history-peminjaman', 'userHistoryPeminjaman');
+
+        Route::get('/dashboard/sirkulasi/aktif', 'adminPeminjamanTerkini');
+        Route::get('/dashboard/sirkulasi/history', 'adminHistoryPeminjaman');
+    
+    });
+
+    Route::controller(ProfileController::class)->group(function(){
+        Route::get('/dashboard/user/account', 'userReadAccountView');
+
+        Route::get('/dashboard/keanggotaan/daftar-akun', 'adminReadAccountView');
+        Route::get('/dashboard/keanggotaan/daftar-akun/create', 'adminCreateAccountView');
+        Route::get('/dashboard/keanggotaan/daftar-akun/edit/{id}', 'adminUpdateAccountView');
+        Route::post('/dashboard/keanggotaan/daftar-akun/create', 'adminCreateAccount');
+        Route::post('/dashboard/keanggotaan/daftar-akun/edit/{id}', 'adminUpdateAccountView');
+        Route::post('/dashboard/keanggotaan/daftar-akun/update', 'adminUpdateAccount');
+        Route::post('/dashboard/keanggotaan/daftar-akun/delete', 'adminDeleteAccount');
+
+        Route::get('/profile', 'edit')->name('profile.edit');
+        Route::patch('/profile', 'update')->name('profile.update');
+        Route::delete('/profile', 'destroy')->name('profile.destroy');
+    });
+    
 });
 
 Route::get('/dashboard', function () {
     if(Auth::user()->keanggotaan_id == 3) return redirect('/dashboard/user/peminjaman-terkini');
+    else if(Auth::user()->keanggotaan_id == 1) return redirect('/dashboard/keanggotaan/daftar-akun');
     else return redirect('/dashboard/pengolahan/buku');
 })->middleware(['auth', 'verified'])->name('dashboard');
 

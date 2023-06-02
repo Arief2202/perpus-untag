@@ -18,10 +18,10 @@ Badan Perpustakaan Untag Surabaya
         @endif
         <div class="row mb-3">
             <div class="col-md-6">
-                <h4 class="card-title"><b>Akun</b> Read Keanggotaan</h4>
+                <h4 class="card-title"><b>{{ $title1 }}</b> {{ $title2 }}</h4>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
-               <button class="btn btn-primary me-4">Tambahkan Data</button>
+               <a class="btn btn-primary me-4" href="/dashboard/keanggotaan/daftar-akun/create">Tambahkan Data</a>
             </div>
         </div>
         <div style="max-height: 70vh; overflow-y:auto;">
@@ -32,24 +32,22 @@ Badan Perpustakaan Untag Surabaya
                             <thead class="thead">
                                 <tr>
                                 <th class="th" scope="col">No</th>
-                                <th class="th" scope="col">Row 1</th>
-                                <th class="th" scope="col">Row 2</th>
-                                <th class="th" scope="col">Row 3</th>
-                                <th class="th" scope="col">Row 4</th>
-                                <th class="th" scope="col">Row 5</th>
+                                <th class="th" scope="col">Nama</th>
+                                <th class="th" scope="col">Email</th>
+                                <th class="th" scope="col">Jenis Keanggotaan</th>
+                                <th class="th" scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @for($a = 0; $a < 100; $a++)
+                                @foreach($users as $a=>$user)
                                 <tr>
                                 <td>{{ $a+1 }}</td>
-                                <td>Column {{ $a+1 }}</td>
-                                <td>Column {{ $a+1 }}</td>
-                                <td>Column {{ $a+1 }}</td>
-                                <td>Column {{ $a+1 }}</td>
-                                <td>Column {{ $a+1 }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->keanggotaan->nama_keanggotaan }}</td>
+                                <td><form method="POST" action="/dashboard/keanggotaan/daftar-akun/edit/{{ $user->id }}">@csrf<button type="submit" class="btn btn-success">Edit</button></form></td>
                                 </tr>
-                                @endfor
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

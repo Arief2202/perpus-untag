@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'User '.$a,
                 'email' => 'user'.$a.'@gmail.com',
                 'password' => Hash::make("password"),
-                'keanggotaan_id' => 3,
+                'keanggotaan_id' => 4,
             ]);
         }
         Buku::insert([
@@ -83,16 +83,16 @@ class DatabaseSeeder extends Seeder
             'denda_per_hari' => 0
         ]);
         Keanggotaan::insert([
-            'nama_keanggotaan' => 'Mahasiswa',
-            'max_pinjam' => 5,
-            'masa_aktif_pinjam' => 5,
-            'denda_per_hari' => 10000
-        ]);
-        Keanggotaan::insert([
             'nama_keanggotaan' => 'Dosen',
             'max_pinjam' => 10,
             'masa_aktif_pinjam' => 10,
             'denda_per_hari' => 5000
+        ]);
+        Keanggotaan::insert([
+            'nama_keanggotaan' => 'Mahasiswa',
+            'max_pinjam' => 5,
+            'masa_aktif_pinjam' => 5,
+            'denda_per_hari' => 10000
         ]);
         
     }

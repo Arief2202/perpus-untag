@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +22,7 @@
     {{-- <body onload="window.print()"> --}}
     <body>
         <div id="btn" class="container ms-0">
-            <a class="btn btn-secondary mt-2" id="btn" href="/sirkulasi/mandiri/peminjaman" style="width:500px;">Back</a>
+            <a class="btn btn-secondary mt-2" id="btn" href="/sirkulasi/mandiri/pengembalian" style="width:500px;">Back</a>
             <button class="btn btn-primary mt-2" id="btn" onclick="window.print()" style="width:500px;">Print</button>
         </div>
         <div id="capture" class="p-2" {{-- style="display: inline-flex" --}}>
@@ -48,27 +49,52 @@
                 <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col-" style="font-size:11px;">No</th>
+                        <th scope="col" style="font-size:11px;">No</th>
                         <th scope="col" style="font-size:11px;">Kode</th>
                         <th scope="col" style="font-size:11px;">Judul</th>
                         <th scope="col" style="font-size:11px;">Terlambat</th>
                         <th scope="col" style="font-size:11px;">Tgl. Pinjam</th>
+                        <th scope="col" style="font-size:11px;">Jatuh Tempo</th>
                         <th scope="col" style="font-size:11px;">Tgl. Kembali</th>
                       </tr>
                     </thead>
                     <tbody>
+                    <?php $telat_total = 0; ?>
                     @foreach($items as $a=>$item)
                       <tr>
                         <td style="font-size:11px;">{{ $a+1 }}</th>
                         <td style="font-size:11px;">{{ $item->copy_number }}</td>
-                        <td style="font-size:11px;width:30%;">{{ $item->buku->judul }}</td>
-                        <td style="font-size:11px;">0</td>
-                        <td style="font-size:11px;">{{ $item->created_at->toDateString() }}</td>
+                        <td style="font-size:11px;width:25%;">{{ $item->buku->judul }}</td>
+                        <?php
+                          $later = new DateTime();
+                          $earlier = new DateTime(date('d-m-Y', strtotime($item->created_at.'+'.Auth::user()->keanggotaan->masa_aktif_pinjam.' day')));
+                          if($later > $earlier) $telat = $later->diff($earlier)->format("%a");
+                          else $telat = 0;
+                          $telat_total += $telat;
+                        ?>
+                        <td style="font-size:11px;">{{ $telat }} Hari</td>
+                        <td style="font-size:11px;">{{ $item->created_at->format('d-m-Y') }}</td>
+                        <td style="font-size:11px;">{{ date('d-m-Y', strtotime($item->created_at.'+'.Auth::user()->keanggotaan->masa_aktif_pinjam.' day'))}}</td>
                         <td style="font-size:11px;">{{ date('d-m-Y') }}</td>
                       </tr>
                     @endforeach
                     </tbody>
                   </table>
+                  <hr style="border-top: 2px dotted rgb(0, 0, 0); pading:0px; margin:0px;">
+                  <div class="ps-3 row">
+                    <div class="col-6">
+                      <b style="font-size:14px;">Denda Keterlambatan</b><br>
+                    </div>
+                    <div class="col-3">
+                        <b class="d-flex justify-content-center" style="font-size:13px;">Denda Per Hari</b>
+                        <p class="d-flex justify-content-center">Rp. {{ number_format(Auth::user()->keanggotaan->denda_per_hari, 0, '','.')}}</p>
+                    </div>
+                    <div class="col-3">
+                        <b class="d-flex justify-content-center" style="font-size:13px;">Bayar Denda</b>
+                        <p class="d-flex justify-content-center">Rp. {{number_format(Auth::user()->keanggotaan->denda_per_hari*$telat_total, 0, '','.')}}</p>
+
+                    </div>
+                  </div>
                   <hr style="border-top: 2px dotted rgb(0, 0, 0); pading:0px; margin:0px;">
                   <div class="ps-3">
                       <b style="font-size:12px;">Notes</b><br>

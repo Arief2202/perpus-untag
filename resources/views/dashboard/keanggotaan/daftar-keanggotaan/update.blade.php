@@ -22,7 +22,7 @@ Badan Perpustakaan Untag Surabaya
     <form method="POST" action="/dashboard/keanggotaan/daftar-keanggotaan/update">@csrf
         <input type="hidden" id="id" name="id" value="{{ $keanggotaan->id }}">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="createModal"><b>Tambahkan Buku</b></h1>
+            <h1 class="modal-title fs-5" id="createModal"><b>Ubah Keanggotaan</b></h1>
             <a type="button" class="btn-close" aria-label="Close" href="/dashboard/keanggotaan/daftar-keanggotaan"></a>
         </div>
         <div class="modal-body mt-4">
@@ -55,7 +55,7 @@ Badan Perpustakaan Untag Surabaya
             </div>
         </div>
         <div class="modal-footer">
-            <a type="button" class="btn btn-danger me-auto" id="deleteButton">Delete</a>
+            @if($keanggotaan->id != 1 && $keanggotaan->id != 2)<a type="button" class="btn btn-danger me-auto" id="deleteButton">Delete</a>@endif
             <a type="button" class="btn btn-secondary me-3" href="/dashboard/keanggotaan/daftar-keanggotaan">Cancel</a>
             <button type="submit" class="btn btn-primary">Update</button>
         </div>

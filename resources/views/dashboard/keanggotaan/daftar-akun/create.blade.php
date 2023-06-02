@@ -6,105 +6,61 @@ Badan Perpustakaan Untag Surabaya
 @endsection
 
 @section('content')
-<style>
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        /* display: none; <- Crashes Chrome on hover */
-        -webkit-appearance: none;
-        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-    }
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            /* display: none; <- Crashes Chrome on hover */
+            -webkit-appearance: none;
+            margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+        }
 
-    input[type=number] {
-        -moz-appearance:textfield; /* Firefox */
-    }
-</style>
+        input[type=number] {
+            -moz-appearance:textfield; /* Firefox */
+        }
+    </style>
     @include('components.cardOpen')
-    <form method="POST" action="/dashboard/pengolahan/buku/create">@csrf
+    <form method="POST" action="/dashboard/keanggotaan/daftar-akun/create">@csrf
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="createModal"><b>Tambahkan Buku</b></h1>
-            <a type="button" class="btn-close" aria-label="Close" href="/dashboard/pengolahan/buku"></a>
+            <h1 class="modal-title fs-5" id="createModal"><b>Edit Keanggotaan</b></h1>
+            <a type="button" class="btn-close" aria-label="Close" href="/dashboard/keanggotaan/daftar-akun"></a>
         </div>
+        @if (\Session::has('message'))
+            <div class="alert alert-danger mt-1 p-2 me-4">{!! \Session::get('message') !!}</div>
+        @endif
         <div class="modal-body mt-4">
             <div class="mb-3">
-                <label for="judul" class="form-label">Judul</label>
-                <input type="text" class="form-control" id="judul" name="judul">
+                <label for="name" class="form-label">Nama</label>
+                <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="mb-3">
-                <label for="judul" class="form-label">Deskripsi</label>
-                <textarea type="text" class="form-control" id="deskripsi" name="deskripsi" rows="5"></textarea>
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
             </div>
-            <div class="mb-3">
-                <label for="pengarang" class="form-label">Pengarang</label>
-                <input type="text" class="form-control" id="pengarang" name="pengarang">
-            </div>
-            <div class="mb-3 col-4">
-                <label for="impresium" class="form-label">Impresium</label>
-                <input type="text" class="form-control" id="impresium" name="impresium">
-            </div>
-            <div class="mb-3">
-                <div class="col-4">
-                    <label for="kolasi" class="form-label">Kolasi</label>
-                    <input type="text" class="form-control" id="kolasi" name="kolasi">
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="col-4">
-                    <label for="isbn_issn" class="form-label">ISBN/ISSN</label>
-                    <input type="number" class="form-control" id="isbn_issn" name="isbn_issn">
-                </div>
-            </div>
-            <div class="mb-3 col-4">
-                <label for="no_inventaris" class="form-label">Nomor Inventaris</label>
-                <input type="text" class="form-control" id="no_inventaris" name="no_inventaris">
-            </div>
-            <div class="mb-3">
-                <div class="row">
-                    <label for="prefix" class="form-label">Nomor Kode</label>
-                    <div class="col-4">
-                        <div class="input-group">
-                            <span class="input-group-text">Prefix</span>
-                            <input type="text" class="form-control" name="prefix" id="prefix" value="P">
-                            <span class="input-group-text">Length</span>
-                            <input type="number" class="form-control" name="length_code" id="length_code" value="5">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="input-group">
-                            <span class="input-group-text">Preview</span>
-                            <input type="text" class="form-control" id="preview" value="P00000" disabled style="background-color:rgb(228, 228, 228); color:black;">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="input-group">
-                            <span class="input-group-text">Jumlah Buku</span>
-                            <input type="number" class="form-control" name="jumlah" id="jumlah" required>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{-- <div class="mb-3">
-                <label for="bahasa" class="form-label">Bahasa</label>
-                <input type="text" class="form-control" id="bahasa" name="bahasa">
-            </div> --}}
-            <div class="form-group mb-3 col-4">
-                <label for="exampleFormControlSelect1">Bahasa</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                    <option value="indonesia">Indonesia</option>
-                    <option value="inggris">Inggris</option>
+            <div class="form-group mb-3">
+                <label for="keanggotaan_id">Jenis Keanggotaan</label>
+                <select class="form-control" id="keanggotaan_id" name="keanggotaan_id">
+                    @foreach($keanggotaans as $keanggotaan)
+                        @if(Auth::user()->keanggotaan_id == 1)
+                            <option value="{{ $keanggotaan->id }}">{{ $keanggotaan->nama_keanggotaan }}</option>
+                        @elseif($keanggotaan->id != 1 && $keanggotaan->id != 2)
+                            <option value="{{ $keanggotaan->id }}">{{ $keanggotaan->nama_keanggotaan }}</option>
+                        @endif
+                    @endforeach
                 </select>
-            </div>
-            <div class="mb-3 col-4">
-                <label for="prodi" class="form-label">Prodi</label>
-                <input type="text" class="form-control" id="prodi" name="prodi">
-            </div>
-            <div class="mb-3 col-4">
-                <label for="lokasi" class="form-label">Lokasi Buku</label>
-                <input type="text" class="form-control" id="lokasi" name="lokasi">
-            </div>
+              </div>
+              <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" name="password" required>
+              </div>
+              <div class="mb-3">
+                  <label for="cpassword" class="form-label">Confirm Password</label>
+                  <input type="password" class="form-control" id="cpassword" name="cpassword" required>
+              </div>
         </div>
         <div class="modal-footer">
-        <a type="button" class="btn btn-secondary me-3" href="/dashboard/pengolahan/buku">Cancel</a>
-        <button type="submit" class="btn btn-primary">Submit</button>
+            <a type="button" class="btn btn-danger me-auto" id="deleteButton">Delete</a>
+            <a type="button" class="btn btn-secondary me-3" href="/dashboard/keanggotaan/daftar-akun">Cancel</a>
+            <button type="submit" class="btn btn-primary">Create</button>
         </div>
     </form>
     @include('components.cardClose')
@@ -114,4 +70,5 @@ Badan Perpustakaan Untag Surabaya
 @endsection
 
 @section('script')
+
 @endsection

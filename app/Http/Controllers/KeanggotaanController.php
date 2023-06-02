@@ -16,8 +16,10 @@ class KeanggotaanController extends Controller
      */
     public function readKeanggotaanView(Request $request)
     {
+        if(Auth::user()->keanggotaan_id == 1) $keanggotaan = Keanggotaan::all();
+        else if(Auth::user()->keanggotaan_id == 2) $keanggotaan = Keanggotaan::where('id', '!=', 1)->where('id', '!=', 2)->get();
         return view('dashboard.keanggotaan.daftar-keanggotaan.read', [
-            'keanggotaans' => Keanggotaan::all(),
+            'keanggotaans' => $keanggotaan
         ]);
     }
 
