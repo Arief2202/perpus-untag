@@ -24,31 +24,36 @@ class DatabaseSeeder extends Seeder
         // ]);
         User::insert([
             'name' => 'Admin 1',
+            'username' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make("password"),
             'keanggotaan_id' => 2,
         ]);
         User::insert([
             'name' => 'Super Admin 1',
+            'username' => 'superadmin',
             'email' => 'superadmin@gmail.com',
             'password' => Hash::make("password"),
             'keanggotaan_id' => 1,
         ]);
         User::insert([
             'name' => 'Guest',
+            'username' => 'guest',
             'email' => 'guest@gmail.com',
             'password' => Hash::make("password"),
             'keanggotaan_id' => 3,
         ]);
         User::insert([
             'name' => 'Arief',
+            'username' => 'arief',
             'email' => 'arief.d2202@gmail.com',
             'password' => Hash::make("password"),
             'keanggotaan_id' => 2,
         ]);
-        for($a=0; $a<10; $a++){            
+        for($a=1; $a<=10; $a++){            
             User::insert([
                 'name' => 'User '.$a,
+                'username' => '31205000'.($a<10?'0':'').$a,
                 'email' => 'user'.$a.'@gmail.com',
                 'password' => Hash::make("password"),
                 'keanggotaan_id' => 4,

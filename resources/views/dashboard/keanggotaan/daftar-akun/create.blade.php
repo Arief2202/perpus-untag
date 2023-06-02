@@ -29,6 +29,10 @@ Badan Perpustakaan Untag Surabaya
         @endif
         <div class="modal-body mt-4">
             <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
                 <label for="name" class="form-label">Nama</label>
                 <input type="text" class="form-control" id="name" name="name" required>
             </div>

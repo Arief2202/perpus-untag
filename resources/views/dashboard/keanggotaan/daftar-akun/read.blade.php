@@ -32,6 +32,7 @@ Badan Perpustakaan Untag Surabaya
                             <thead class="thead">
                                 <tr>
                                 <th class="th" scope="col">No</th>
+                                <th class="th" scope="col">Username</th>
                                 <th class="th" scope="col">Nama</th>
                                 <th class="th" scope="col">Email</th>
                                 <th class="th" scope="col">Jenis Keanggotaan</th>
@@ -42,6 +43,7 @@ Badan Perpustakaan Untag Surabaya
                                 @foreach($users as $a=>$user)
                                 <tr>
                                 <td>{{ $a+1 }}</td>
+                                <td>{{ $user->username }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->keanggotaan->nama_keanggotaan }}</td>

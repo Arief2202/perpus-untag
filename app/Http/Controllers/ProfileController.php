@@ -66,6 +66,7 @@ class ProfileController extends Controller
         if($request->password != $request->cpassword) return redirect()->back()->with('message', 'Password dan Confirm Password Tidak Sama'); 
         $user = User::where('id', $request->id)->first();
         if($user){
+            $user->username = $request->username;
             $user->name = $request->name;
             $user->email = $request->email;
             $user->keanggotaan_id = $request->keanggotaan_id;
@@ -80,6 +81,7 @@ class ProfileController extends Controller
         if($user) return redirect()->back()->with('message', 'Email telah digunakan');
         else {
             $user = new User();
+            $user->username = $request->username;
             $user->name = $request->name;
             $user->email = $request->email;
             $user->keanggotaan_id = $request->keanggotaan_id;

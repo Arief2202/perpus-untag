@@ -21,7 +21,7 @@
                 <form class="p-4 col-10" style="background-color: #e4e4e4" method="POST" action="/loginSirkulasi">@csrf
                     <div class="d-flex justify-content-center">
                         <div class="form-outline mb-3">
-                            <input type="email" id="form12" name="email" class="form-control" style="background-color: #f3f3f3" required/>
+                            <input type="text" id="form12" name="email" class="form-control" style="background-color: #f3f3f3" required/>
                             <label class="form-label" for="form12">Username</label>
                         </div>
                     </div>

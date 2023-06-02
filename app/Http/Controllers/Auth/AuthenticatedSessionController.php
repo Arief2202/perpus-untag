@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -25,6 +26,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        if($user = User::where('username', $request->email)->first()) $request->merge(['email' => $user->email]);
+        
         $request->authenticate();
 
         $request->session()->regenerate();
@@ -34,6 +37,8 @@ class AuthenticatedSessionController extends Controller
 
     public function storeSirkulasi(LoginRequest $request): RedirectResponse
     {
+        if($user = User::where('username', $request->email)->first()) $request->merge(['email' => $user->email]);
+
         $request->authenticate();
 
         $request->session()->regenerate();
