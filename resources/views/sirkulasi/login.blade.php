@@ -22,7 +22,7 @@
                     <div class="d-flex justify-content-center">
                         <div class="form-outline mb-3">
                             <input type="text" id="form12" name="email" class="form-control" style="background-color: #f3f3f3" required/>
-                            <label class="form-label" for="form12">Username</label>
+                            <label class="form-label" for="form12">Nomor Anggota</label>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">

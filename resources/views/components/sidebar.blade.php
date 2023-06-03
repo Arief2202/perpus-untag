@@ -93,7 +93,7 @@
         <li class="{{Request::segment(2) == 'sirkulasi'? 'active' : ''}}">
             <div class="iocn-link">
                 <a href="#">
-                    <i class='bx bxs-cog icon'></i>
+                    <i class='bx bx-refresh icon'></i>
                     <span class="link_name">Sirkulasi</span>
                 </a>
                 <i class='bx bxs-chevron-down arrow' ></i>
@@ -105,11 +105,24 @@
             </ul>
         </li>
         @endif
+
+        @if(Auth::user()->keanggotaan_id == 1)        
+            <li class="{{Request::segment(2) == 'activity'? 'active' : ''}}">
+                <a href="/dashboard/activity">
+                    <i class='bx bx-search-alt-2 icon'></i>
+                    <span class="link_name">Activity</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/dashboard/activity">Activity</a></li>
+                </ul>
+            </li>
+        @endif
+
         @if(Auth::user()->keanggotaan_id == 1 || Auth::user()->keanggotaan_id == 2)
             <li class="{{Request::segment(2) == 'keanggotaan'? 'active' : ''}}">
                 <div class="iocn-link">
                     <a href="#">
-                        <i class='bx bxs-cog icon'></i>
+                        <i class='bx bxs-user-account icon'></i>
                         <span class="link_name">Keanggotaan</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow' ></i>
@@ -117,7 +130,7 @@
                 <ul class="sub-menu">
                     <li><a class="link_name">Keanggotaan</a></li>
                     <li><a href="/dashboard/keanggotaan/daftar-keanggotaan">Daftar Keanggotaan</a></li>
-                    <li><a href="/dashboard/keanggotaan/daftar-akun">Daftar Akun</a></li>
+                    <li><a href="/dashboard/keanggotaan/daftar-akun">Daftar Anggota</a></li>
                 </ul>
             </li>
         @endif
@@ -141,13 +154,18 @@
                     <li><a class="link_name" href="/dashboard/user/history-peminjaman">History Peminjaman</a></li>
                 </ul>
             </li>
-            <li class="{{Request::segment(3) == 'account'? 'active' : ''}}">
-                <a href="/dashboard/user/account">
-                    <i class='bx bx-chart icon'></i>
-                    <span class="link_name">Akun Saya</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/dashboard/user/account">Akun Saya</a></li>
+            <li class="{{Request::segment(3) == 'account'? 'active' : ''}}">                
+                <div class="iocn-link">
+                    <a href="/dashboard/user/account/data-diri">
+                        <i class='bx bx-user'></i>
+                        <span class="link_name">Akun Saya</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow' ></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name">Akun Saya</a></li>
+                    <li><a href="/dashboard/user/account/data-diri">Data Diri</a></li>
+                    <li><a href="/dashboard/user/account/update-password">Ubah Password</a></li>
                 </ul>
             </li>
 

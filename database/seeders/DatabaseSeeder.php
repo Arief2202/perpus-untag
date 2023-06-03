@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use File;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -99,6 +100,6 @@ class DatabaseSeeder extends Seeder
             'masa_aktif_pinjam' => 5,
             'denda_per_hari' => 10000
         ]);
-        
+        File::delete(public_path('uploads/img/profile/*'));
     }
 }

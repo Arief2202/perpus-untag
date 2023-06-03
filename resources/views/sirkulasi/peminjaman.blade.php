@@ -37,10 +37,11 @@
                 <div class="row mt-4">
                     <div class="col-sm-2">
                         @if(!Auth::user()->foto) <img src="/img/default_profile.jpg" width="70%">
+                        @else <img src="/{{ Auth::user()->foto }}" width="70%">
                         @endif
                     </div>
                     <div class="col-sm">
-                        <div class="mb-2" style="font-size:16px; font-weight:500;">Nomor Anggota<pre style="display: inline;"> </pre>: {{ Auth::user()->id }}</div>
+                        <div class="mb-2" style="font-size:16px; font-weight:500;">Nomor Anggota<pre style="display: inline;"> </pre>: {{ Auth::user()->username }}</div>
                         <div class="mb-2" style="font-size:16px; font-weight:500;">Nama Anggota<pre style="display: inline;">  </pre>: {{ Auth::user()->name }}</div>
                         <div class="mb-2" style="font-size:16px; font-weight:500;">Email Anggota <pre style="display: inline;">  </pre>: {{ Auth::user()->email }}</div>
                         <div class="mb-2" style="font-size:16px; font-weight:500;">Jenis Anggota<pre style="display: inline;">   </pre>: {{ Auth::user()->keanggotaan->nama_keanggotaan }}</div>
@@ -66,10 +67,10 @@
                     <div class="col">
                         <div class="d-flex justify-content-end">
                             <form action="">
-                                <a class="btn btn-warning me-4" href="/sirkulasi/mandiri/peminjaman/nota">Cetak Bukti Pemesanan</a>
+                                <a class="btn btn-warning me-4" href="/sirkulasi/mandiri/peminjaman/nota">Cetak Bukti Peminjaman</a>
                             </form>
                             <form action="/sirkulasi/mandiri/peminjaman/checkout" method="POST">@csrf
-                                <button type="submit" class="btn btn-success">Selesaikan Pemesanan</button>
+                                <button type="submit" class="btn btn-success">Selesaikan Peminjaman</button>
                             </form>
                         </div>
                     </div>
@@ -172,7 +173,7 @@
     <script type="text/javascript">    
         let html5QrcodeScanner = new Html5QrcodeScanner(
             "reader",
-            { fps: 10, qrbox: {width: 100, height: 100} },
+            { fps: 10, qrbox: {width: 300, height: 300} },
             /* verbose= */ false);
 
         function onScanSuccess(decodedText, decodedResult) {

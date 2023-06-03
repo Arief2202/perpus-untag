@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreKeanggotaanRequest;
 use App\Http\Requests\UpdateKeanggotaanRequest;
+use App\Models\AdminActivity;
 use App\Models\Keanggotaan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -43,12 +44,33 @@ class KeanggotaanController extends Controller
         $keanggotaan->masa_aktif_pinjam = $request->masa_aktif_pinjam;
         $keanggotaan->denda_per_hari = $request->denda_per_hari;
         $keanggotaan->save();
+        AdminActivity::insert([
+            'user_id' => Auth::user()->id,
+            'aksi' =>  'Create',
+            'halaman' =>  'Keanggotaan',
+            'table_id' =>  $keanggotaan->id,
+            'raw_json' =>  json_encode($keanggotaan->toArray()),
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
+        ]);
         return redirect('/dashboard/keanggotaan/daftar-keanggotaan');
     }
 
     public function deleteKeanggotaan(Request $request)
     {
-        Keanggotaan::where('id', $request->id)->first()->delete();
+        $keanggotaan = Keanggotaan::where('id', $request->id)->first();
+        
+        AdminActivity::insert([
+            'user_id' => Auth::user()->id,
+            'aksi' =>  'Delete',
+            'halaman' =>  'Keanggotaan',
+            'table_id' =>  $keanggotaan->id,
+            'raw_json' =>  json_encode($keanggotaan->toArray()),
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
+        ]);
+        $keanggotaan->delete();
+        
         return redirect('/dashboard/keanggotaan/daftar-keanggotaan');
     }
 
@@ -60,6 +82,15 @@ class KeanggotaanController extends Controller
         $keanggotaan->masa_aktif_pinjam = $request->masa_aktif_pinjam;
         $keanggotaan->denda_per_hari = $request->denda_per_hari;
         $keanggotaan->save();
+        AdminActivity::insert([
+            'user_id' => Auth::user()->id,
+            'aksi' =>  'Update',
+            'halaman' =>  'Keanggotaan',
+            'table_id' =>  $keanggotaan->id,
+            'raw_json' =>  json_encode($keanggotaan->toArray()),
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
+        ]);
         return redirect('/dashboard/keanggotaan/daftar-keanggotaan');
     }
 
@@ -69,28 +100,6 @@ class KeanggotaanController extends Controller
         return view('dashboard.keanggotaan.daftar-akun.read', [
             'users' => User::all(),
         ]);
-    }
-
-    public function createAkunView(Request $request)
-    {
-        return view('dashboard.keanggotaan.daftar-akun.create');
-    }
-
-    public function updateAkunView($id, Request $request)
-    {
-        return view('dashboard.keanggotaan.daftar-akun.update');
-    }
-
-    public function createAkun(Request $request)
-    {
-    }
-
-    public function deleteAkun(Request $request)
-    {
-    }
-
-    public function updateAkun(Request $request)
-    {
     }
 
 }

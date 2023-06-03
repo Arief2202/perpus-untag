@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignId('keanggotaan_id')->default(3);
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('alamat')->nullable();
+            $table->string('telp')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('darkMode')->default(0);

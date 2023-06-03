@@ -19,13 +19,27 @@ Badan Perpustakaan Untag Surabaya
         }
     </style>
     @include('components.cardOpen')
-    <form method="POST" action="/dashboard/pengolahan/buku/update">@csrf
+    <form method="POST" action="/dashboard/pengolahan/buku/update" enctype="multipart/form-data">@csrf
         <input type="hidden" id="id" name="id" value="{{ $buku->id }}">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="createModal"><b>Tambahkan Buku</b></h1>
             <a type="button" class="btn-close" aria-label="Close" href="/dashboard/pengolahan/buku"></a>
         </div>
         <div class="modal-body mt-4">
+            <div class="mb-3 img-preview">
+                <label for="foto" class="form-label">Preview Foto Sampul</label><br>
+                {{-- <img src="/img/default_cover.jpg" height="200vh" id="previewImg" class="img-preview" > --}}
+                
+                @if(!$buku->sampul)
+                <img src="/img/default_cover.jpg" height="200vh" id="previewImg" class="img-preview" >
+                @else
+                <img src="/{{ $buku->sampul }}" height="200vh" id="previewImg" class="img-preview" >
+                @endif
+            </div>
+            <div class="mb-3">
+                <label for="sampul" class="form-label">Upload Foto Sampul</label>
+                <input type="file" class="form-control" id="sampul" name="sampul" onchange="updatePreview()">
+            </div>
             <div class="mb-3">
                 <label for="judul" class="form-label">Judul</label>
                 <input type="text" class="form-control" id="judul" name="judul" value="{{ $buku->judul }}">
@@ -86,7 +100,7 @@ Badan Perpustakaan Untag Surabaya
             
             <div class="form-group mb-3">
                 <label for="exampleFormControlSelect1">Bahasa</label>
-                <select class="form-control" id="exampleFormControlSelect1">
+                <select class="form-control" id="exampleFormControlSelect1" name="bahasa">
                     <option></option>
                     <option value="indonesia" @if($buku->bahasa == "indonesia") selected @endif>Indonesia</option>
                     <option value="inggris" @if($buku->bahasa == "inggris") selected @endif>Inggris</option>
@@ -119,6 +133,10 @@ Badan Perpustakaan Untag Surabaya
 
 @section('script')
     <script type="text/javascript">
+        function updatePreview(){
+            const image = document.getElementById("sampul");
+            document.getElementById("previewImg").src = URL.createObjectURL(image.files[0]);
+        }
         $(document).ready( function () {
             changePreview();
             $("#deleteButton").on("click", function(){

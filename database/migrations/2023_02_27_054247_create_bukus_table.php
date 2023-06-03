@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('bukus', function (Blueprint $table) {
             $table->id();
+            $table->string('sampul')->nullable();
             $table->string('judul')->nullable();
             $table->text('deskripsi')->nullable();
             $table->string('pengarang')->nullable();

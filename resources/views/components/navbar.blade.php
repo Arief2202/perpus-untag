@@ -85,7 +85,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Username</label>
+                                <label for="exampleInputEmail1" class="form-label">Nomor Anggota</label>
                                 <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
                             </div>
                             <div class="mb-3">

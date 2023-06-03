@@ -19,12 +19,20 @@ Badan Perpustakaan Untag Surabaya
     }
 </style>
     @include('components.cardOpen')
-    <form method="POST" action="/dashboard/pengolahan/buku/create">@csrf
+    <form method="POST" action="/dashboard/pengolahan/buku/create" enctype="multipart/form-data">@csrf
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="createModal"><b>Tambahkan Buku</b></h1>
             <a type="button" class="btn-close" aria-label="Close" href="/dashboard/pengolahan/buku"></a>
         </div>
         <div class="modal-body mt-4">
+            <div class="mb-3 img-preview">
+                <label for="foto" class="form-label">Preview Foto Sampul</label><br>
+                <img src="/img/default_cover.jpg" height="200vh" id="previewImg" class="img-preview" >
+            </div>
+            <div class="mb-3">
+                <label for="sampul" class="form-label">Upload Foto Sampul</label>
+                <input type="file" class="form-control" id="sampul" name="sampul" onchange="updatePreview()">
+            </div>
             <div class="mb-3">
                 <label for="judul" class="form-label">Judul</label>
                 <input type="text" class="form-control" id="judul" name="judul">
@@ -88,7 +96,7 @@ Badan Perpustakaan Untag Surabaya
             </div> --}}
             <div class="form-group mb-3 col-4">
                 <label for="exampleFormControlSelect1">Bahasa</label>
-                <select class="form-control" id="exampleFormControlSelect1">
+                <select class="form-control" id="exampleFormControlSelect1" name="bahasa">
                     <option value="indonesia">Indonesia</option>
                     <option value="inggris">Inggris</option>
                 </select>
@@ -115,6 +123,10 @@ Badan Perpustakaan Untag Surabaya
 
 @section('script')
     <script type="text/javascript">
+        function updatePreview(){
+            const image = document.getElementById("sampul");
+            document.getElementById("previewImg").src = URL.createObjectURL(image.files[0]);
+        }
         $(document).ready( function () {
             $("#prefix").on("change keyup paste", function(){
                 changePreview();

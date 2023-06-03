@@ -32,7 +32,7 @@ Badan Perpustakaan Untag Surabaya
                             <thead class="thead">
                                 <tr>
                                 <th class="th" scope="col">No</th>
-                                <th class="th" scope="col">Username</th>
+                                <th class="th" scope="col">Nomor Anggota</th>
                                 <th class="th" scope="col">Nama</th>
                                 <th class="th" scope="col">Email</th>
                                 <th class="th" scope="col">Jenis Keanggotaan</th>

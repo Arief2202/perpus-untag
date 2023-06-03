@@ -19,7 +19,7 @@ Badan Perpustakaan Untag Surabaya
         }
     </style>
     @include('components.cardOpen')
-    <form method="POST" action="/dashboard/keanggotaan/daftar-akun/update">@csrf
+    <form method="POST" action="/dashboard/keanggotaan/daftar-akun/update" enctype="multipart/form-data">@csrf
         @if(isset($error))@dd($error)@endif
         <input type="hidden" id="id" name="id" value="{{ $user->id }}">
         <div class="modal-header">
@@ -30,8 +30,20 @@ Badan Perpustakaan Untag Surabaya
             <div class="alert alert-danger mt-1 p-2 me-4">{!! \Session::get('message') !!}</div>
         @endif
         <div class="modal-body mt-4">
+            <div class="mb-3 img-preview">
+                <label for="foto" class="form-label">Preview Foto</label><br>
+                @if(!$user->foto)
+                <img src="/img/default_profile.jpg" height="100vh" id="preview" class="img-preview" >
+                @else
+                <img src="/{{ $user->foto }}" height="100vh" id="preview" class="img-preview" >
+                @endif
+            </div>
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
+                <label for="foto" class="form-label">Upload Foto</label>
+                <input type="file" class="form-control" id="foto" name="foto" onchange="updatePreview()">
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Nomor Anggota</label>
                 <input type="text" class="form-control" id="username" name="username" value="{{ $user->username }}" required>
             </div>
             <div class="mb-3">
@@ -41,6 +53,14 @@ Badan Perpustakaan Untag Surabaya
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="alamat" class="form-label">Alamat</label>
+                <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $user->alamat }}" >
+            </div>
+            <div class="mb-3">
+                <label for="telp" class="form-label">No Telp</label>
+                <input type="text" class="form-control" id="telp" name="telp" value="{{ $user->telp }}" >
             </div>
             <div class="form-group mb-3">
                 <label for="keanggotaan_id">Jenis Keanggotaan</label>
@@ -85,5 +105,11 @@ Badan Perpustakaan Untag Surabaya
                 $( "#delete" ).trigger( "submit" );
             });
         } );
+    </script>
+    <script type="text/javascript">
+        function updatePreview(){
+            const image = document.getElementById("foto");
+            document.getElementById("preview").src = URL.createObjectURL(image.files[0]);
+        }
     </script>
 @endsection

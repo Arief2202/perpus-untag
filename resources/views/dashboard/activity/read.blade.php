@@ -18,7 +18,7 @@ Badan Perpustakaan Untag Surabaya
         @endif
         <div class="row mb-3">
             <div class="col-md-6">
-                <h4 class="card-title"><b>{{ $title1 }}</b> {{ $title2 }}</h4>
+                <h4 class="card-title"><b>Admin Activity</b></h4>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
                <button class="btn btn-primary me-4">Tambahkan Data</button>
@@ -32,24 +32,26 @@ Badan Perpustakaan Untag Surabaya
                             <thead class="thead">
                                 <tr>
                                 <th class="th" scope="col">No</th>
-                                <th class="th" scope="col">Row 1</th>
-                                <th class="th" scope="col">Row 2</th>
-                                <th class="th" scope="col">Row 3</th>
-                                <th class="th" scope="col">Row 4</th>
-                                <th class="th" scope="col">Row 5</th>
+                                <th class="th" scope="col">ID Admin</th>
+                                <th class="th" scope="col">Email Admin</th>
+                                <th class="th" scope="col">Halaman</th>
+                                <th class="th" scope="col">Aksi</th>
+                                <th class="th" scope="col">ID Tabel</th>
+                                <th class="th" scope="col">Timestamp</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @for($a = 0; $a < 100; $a++)
+                                @foreach($activities as $a=>$activity)
                                 <tr>
                                 <td>{{ $a+1 }}</td>
-                                <td>Column {{ $a+1 }}</td>
-                                <td>Column {{ $a+1 }}</td>
-                                <td>Column {{ $a+1 }}</td>
-                                <td>Column {{ $a+1 }}</td>
-                                <td>Column {{ $a+1 }}</td>
+                                <td>{{ $activity->user->username }}</td>
+                                <td>{{ $activity->user->email }}</td>
+                                <td>{{ $activity->halaman }}</td>
+                                <td>{{ $activity->aksi }}</td>
+                                <td>{{ $activity->table_id }}</td>
+                                <td>{{ $activity->created_at }}</td>
                                 </tr>
-                                @endfor
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

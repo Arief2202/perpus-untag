@@ -100,7 +100,12 @@ Route::middleware('auth')->group(function() {
     });
 
     Route::controller(ProfileController::class)->group(function(){
-        Route::get('/dashboard/user/account', 'userReadAccountView');
+        Route::get('/dashboard/activity', 'activity');
+
+        Route::get('/dashboard/user/account/data-diri', 'dataDiri');
+        Route::get('/dashboard/user/account/update-profile', 'updateProfileView');
+        Route::get('/dashboard/user/account/update-password', 'updatePasswordView');
+        Route::post('/dashboard/user/account/update-password', 'updatePassword');
 
         Route::get('/dashboard/keanggotaan/daftar-akun', 'adminReadAccountView');
         Route::get('/dashboard/keanggotaan/daftar-akun/create', 'adminCreateAccountView');
