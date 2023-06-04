@@ -33,7 +33,7 @@ Badan Perpustakaan Untag Surabaya
             <div class="mb-3 img-preview">
                 <label for="foto" class="form-label">Preview Foto</label><br>
                 @if(!$user->foto)
-                <img src="/img/default_profile.jpg" height="100vh" id="preview" class="img-preview" >
+                <img src="/img/NoImage.png" height="100vh" id="preview" class="img-preview" >
                 @else
                 <img src="/{{ $user->foto }}" height="100vh" id="preview" class="img-preview" >
                 @endif

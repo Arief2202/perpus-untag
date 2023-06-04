@@ -27,7 +27,7 @@ Badan Perpustakaan Untag Surabaya
         <div class="modal-body mt-4">
             <div class="mb-3 img-preview">
                 <label for="foto" class="form-label">Preview Foto Sampul</label><br>
-                <img src="/img/default_cover.jpg" height="200vh" id="previewImg" class="img-preview" >
+                <img src="/img/NoImage.png" height="200vh" id="previewImg" class="img-preview" >
             </div>
             <div class="mb-3">
                 <label for="sampul" class="form-label">Upload Foto Sampul</label>

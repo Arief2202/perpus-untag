@@ -36,7 +36,7 @@
                 <h5><b>DETAIL ANGGOTA</b></h5>
                 <div class="row mt-4">
                     <div class="col-sm-2">
-                        @if(!Auth::user()->foto) <img src="/img/default_profile.jpg" width="70%">
+                        @if(!Auth::user()->foto) <img src="/img/NoImage.png" width="70%">
                         @else <img src="/{{ Auth::user()->foto }}" width="70%">
                         @endif
                     </div>

@@ -32,7 +32,7 @@ Badan Perpustakaan Untag Surabaya
             </div> --}}
             <div class="mb-3 img-preview">
                 <label for="foto" class="form-label">Preview Foto</label><br>
-                <img src="/img/default_profile.jpg" height="100vh" id="preview" class="img-preview" >
+                <img src="/img/NoImage.png" height="100vh" id="preview" class="img-preview" >
             </div>
             <div class="mb-3">
                 <label for="foto" class="form-label">Upload Foto</label>

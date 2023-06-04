@@ -31,7 +31,7 @@ Badan Perpustakaan Untag Surabaya
                 {{-- <img src="/img/default_cover.jpg" height="200vh" id="previewImg" class="img-preview" > --}}
                 
                 @if(!$buku->sampul)
-                <img src="/img/default_cover.jpg" height="200vh" id="previewImg" class="img-preview" >
+                <img src="/img/NoImage.png" height="200vh" id="previewImg" class="img-preview" >
                 @else
                 <img src="/{{ $buku->sampul }}" height="200vh" id="previewImg" class="img-preview" >
                 @endif

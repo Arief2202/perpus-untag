@@ -7,6 +7,7 @@ use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
 use Illuminate\Http\Request;
 use App\Models\Buku;
+use App\Models\Peminjaman;
 use App\Models\AdminActivity;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -21,6 +22,18 @@ class BukuController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function katalog(Request $request){
+        return view('katalog.index',[
+            "bukus" => Buku::all(),
+        ]);
+    }
+    public function katalogDetail($id, Request $request){
+        return view('katalog.detail',[
+            "buku" => Buku::where('id', $id)->first(),
+            "peminjamans" => Peminjaman::where('buku_id', $id)->where('status', '<', 3)->get(),
+        ]);
+    }
+
     public function cetak_label(Request $request){
         return view('dashboard.pengolahan.cetak',[
             "bukus" => Buku::all(),

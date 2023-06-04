@@ -47,6 +47,12 @@ Route::get('/sirkulasi/mandiri/select', function(){
     return view('sirkulasi.select');
 });
 
+
+Route::controller(BukuController::class)->group(function(){
+    Route::get('/katalog', 'katalog');
+    Route::get('/katalog/{id}', 'katalogDetail');
+});
+
 Route::middleware('auth')->group(function() {
     Route::controller(PeminjamanController::class)->group(function(){
         Route::post('/sirkulasi/mandiri/peminjaman/checkout', 'checkout');
@@ -63,7 +69,7 @@ Route::middleware('auth')->group(function() {
         Route::get('/sirkulasi/mandiri/pengembalian/nota', 'nota');
     });
 
-    Route::controller(BukuController::class)->group(function(){
+    Route::controller(BukuController::class)->group(function(){        
         Route::get('/dashboard/pengolahan/buku', 'read');
         Route::get('/dashboard/pengolahan/buku/update/{id}', 'updateView');
         Route::get('/dashboard/pengolahan/buku/add', 'createForm');

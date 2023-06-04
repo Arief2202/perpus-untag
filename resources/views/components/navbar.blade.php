@@ -63,6 +63,7 @@
                     <li><a class="nav-link @yield('navAksesClass')" href="/akses-informasi">Akses Informasi</a></li>
                     <li><a class="nav-link @yield('navUnduhanClass')" href="/unduhan">Unduhan</a></li>
                     <li><a class="nav-link @yield('navKontakClass')" href="/kontak">Kontak</a></li>
+                    <li><a class="nav-link @yield('navKatalogClass')" href="/katalog">Katalog</a></li>
                     @if(Auth::user())<li><a class="nav-link @yield('navDashboardClass')" href="/dashboard">Dashboard</a></li>@endif
                     @if(!Auth::user())<li><button class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></button>
                     @else<li><form method="POST" action="{{ route('logout') }}">@csrf<button class="nav-link">Logout</a></button></form>
