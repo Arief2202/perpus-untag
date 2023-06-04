@@ -93,6 +93,7 @@ class ProfileController extends Controller
         if($user) return redirect()->back()->with('message', 'Username telah digunakan');
         $user = User::where('id', $request->id)->first();
         if($user){
+            $old = $user->toArray();
             $user->username = $request->username;
             $user->name = $request->name;
             $user->email = $request->email;
@@ -124,7 +125,8 @@ class ProfileController extends Controller
             'aksi' =>  'Update',
             'halaman' =>  'Anggota',
             'table_id' =>  $user->id,
-            'raw_json' =>  json_encode($user->toArray()),
+            'data_json' =>  json_encode($old),
+            'new_data_json' =>  json_encode($user->toArray()),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -177,7 +179,7 @@ class ProfileController extends Controller
             'aksi' =>  'Create',
             'halaman' =>  'Anggota',
             'table_id' =>  $user->id,
-            'raw_json' =>  json_encode($user->toArray()),
+            'data_json' =>  json_encode($user->toArray()),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -197,7 +199,7 @@ class ProfileController extends Controller
                 'aksi' =>  'Delete',
                 'halaman' =>  'Anggota',
                 'table_id' =>  $user->id,
-                'raw_json' =>  json_encode($user->toArray()),
+                'data_json' =>  json_encode($user->toArray()),
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ]);
@@ -207,7 +209,11 @@ class ProfileController extends Controller
     }
 
     public function activity(Request $request){
+        $data = null;
+        if($request->activity_id) $data = AdminActivity::where('id', $request->activity_id)->first();
         return view('dashboard.activity.read',[
+            'request' => $request,
+            'data' => $data,
             'activities' => AdminActivity::orderBy('created_at', 'DESC')->get(),
         ]);
     }

@@ -33,12 +33,12 @@ Badan Perpustakaan Untag Surabaya
                 @if($user->foto == null)
                     <img src="/img/default_profile.jpg" height="100vh">
                 @else
-                <img src="/img/user/{{ $user->foto }}" height="100vh">
+                <img src="/{{ $user->foto }}" height="100vh">
                 @endif
             </div>
             <div class="mb-3">
                 <label for="username" class="form-label">Nomor Anggota</label>
-                <input type="text" class="form-control" id="username" name="username" value="{{ $user->username }}" style="background-color: rgb(240, 240, 240)">
+                <input type="text" class="form-control" id="username" name="username" value="{{ $user->username }}" disabled style="background-color: rgb(240, 240, 240)">
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">Nama</label>
@@ -47,6 +47,14 @@ Badan Perpustakaan Untag Surabaya
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" disabled style="background-color: rgb(240, 240, 240)">
+            </div>
+            <div class="mb-3">
+                <label for="alamat" class="form-label">Alamat</label>
+                <input type="email" class="form-control" id="alamat" name="alamat" value="{{ $user->alamat }}" disabled style="background-color: rgb(240, 240, 240)">
+            </div>
+            <div class="mb-3">
+                <label for="telp" class="form-label">No Telp</label>
+                <input type="email" class="form-control" id="telp" name="telp" value="{{ $user->telp }}" disabled style="background-color: rgb(240, 240, 240)">
             </div>
             <div class="form-group mb-3">
                 <label for="keanggotaan_id">Jenis Keanggotaan</label>

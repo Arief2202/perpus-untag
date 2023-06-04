@@ -17,7 +17,8 @@ return new class extends Migration
             $table->String('aksi');
             $table->String('halaman');
             $table->integer('table_id')->nullable();
-            $table->longText('raw_json')->nullable();
+            $table->longText('data_json')->nullable();
+            $table->longText('new_data_json')->nullable();
             $table->timestamps();
         });
     }

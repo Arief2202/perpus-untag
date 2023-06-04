@@ -49,7 +49,7 @@ class KeanggotaanController extends Controller
             'aksi' =>  'Create',
             'halaman' =>  'Keanggotaan',
             'table_id' =>  $keanggotaan->id,
-            'raw_json' =>  json_encode($keanggotaan->toArray()),
+            'data_json' =>  json_encode($keanggotaan->toArray()),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -65,7 +65,7 @@ class KeanggotaanController extends Controller
             'aksi' =>  'Delete',
             'halaman' =>  'Keanggotaan',
             'table_id' =>  $keanggotaan->id,
-            'raw_json' =>  json_encode($keanggotaan->toArray()),
+            'data_json' =>  json_encode($keanggotaan->toArray()),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -77,6 +77,7 @@ class KeanggotaanController extends Controller
     public function updateKeanggotaan(Request $request)
     {
         $keanggotaan = Keanggotaan::where('id', $request->id)->first();
+        $old = $keanggotaan->toArray();
         $keanggotaan->nama_keanggotaan = $request->nama_keanggotaan;
         $keanggotaan->max_pinjam = $request->max_pinjam;
         $keanggotaan->masa_aktif_pinjam = $request->masa_aktif_pinjam;
@@ -87,7 +88,8 @@ class KeanggotaanController extends Controller
             'aksi' =>  'Update',
             'halaman' =>  'Keanggotaan',
             'table_id' =>  $keanggotaan->id,
-            'raw_json' =>  json_encode($keanggotaan->toArray()),
+            'data_json' =>  json_encode($old),
+            'new_data_json' =>  json_encode($keanggotaan->toArray()),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);

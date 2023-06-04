@@ -45,7 +45,7 @@ class BukuController extends Controller
             'aksi' =>  'Cetak',
             'halaman' =>  'Cetak Label',
             'table_id' =>  null,
-            'raw_json' =>  json_encode($request->toArray()),
+            'data_json' =>  json_encode($request->toArray()),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -95,7 +95,7 @@ class BukuController extends Controller
                 'aksi' =>  'Create',
                 'halaman' =>  'Pengolahan Buku',
                 'table_id' =>  $newBuku->id,
-                'raw_json' =>  json_encode($newBuku->toArray()),
+                'data_json' =>  json_encode($newBuku->toArray()),
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ]);
@@ -130,6 +130,7 @@ class BukuController extends Controller
     {
         $cariBuku = Buku::where("id", $request->id)->first();
         if($cariBuku){
+            $old = $cariBuku->toArray();
             if($request->judul)$cariBuku->judul=$request->judul;
             if($request->deskripsi)$cariBuku->deskripsi=$request->deskripsi;
             if($request->pengarang)$cariBuku->pengarang=$request->pengarang;
@@ -164,7 +165,8 @@ class BukuController extends Controller
             'aksi' =>  'Update',
             'halaman' =>  'Pengolahan Buku',
             'table_id' =>  $cariBuku->id,
-            'raw_json' =>  json_encode($cariBuku->toArray()),
+            'data_json' =>  json_encode($old),
+            'new_data_json' =>  json_encode($cariBuku->toArray()),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
@@ -181,7 +183,7 @@ class BukuController extends Controller
                 'aksi' =>  'Delete',
                 'halaman' =>  'Pengolahan Buku',
                 'table_id' =>  $cariBuku->id,
-                'raw_json' =>  json_encode($cariBuku->toArray()),
+                'data_json' =>  json_encode($cariBuku->toArray()),
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ]);
