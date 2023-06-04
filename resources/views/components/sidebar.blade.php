@@ -110,10 +110,10 @@
             <li class="{{Request::segment(2) == 'activity'? 'active' : ''}}">
                 <a href="/dashboard/activity">
                     <i class='bx bx-search-alt-2 icon'></i>
-                    <span class="link_name">Activity</span>
+                    <span class="link_name">Aktivitas Admin</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="/dashboard/activity">Activity</a></li>
+                    <li><a class="link_name" href="/dashboard/activity">Aktivitas Admin</a></li>
                 </ul>
             </li>
         @endif

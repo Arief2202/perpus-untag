@@ -22,7 +22,7 @@ Badan Perpustakaan Untag Surabaya
         @endif
         <div class="row mb-3">
             <div class="col-md-6">
-                <h4 class="card-title"><b>Admin Activity</b></h4>
+                <h4 class="card-title"><b>Aktivitas Admin</b></h4>
             </div>
         </div>
         <div style="max-height: 70vh; overflow-y:auto;">
@@ -75,43 +75,69 @@ Badan Perpustakaan Untag Surabaya
             <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $data->aksi }} {{ $data->halaman }}</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ $data->halaman }} ({{ $data->aksi }})</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    @foreach($table as $key=>$tb)
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">{{ $key }}</label>
-                        @if($table[$key] == $oldtable[$key])
-                        @if($key == 'created_at' || $key == 'updated_at')
-                        <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ date('d-m-Y H:i:s', strtotime($tb)) }}" disabled>
-                        @else
-                        <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ $tb }}" disabled>
-                        @endif
-                        @else
-                        <div class="row">
-                            <div class="input-group col">
-                                <span class="input-group-text" id="basic-addon3">old</span>
-                                
-                                @if($key == 'created_at' || $key == 'updated_at')
-                                <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ date('d-m-Y H:i:s', strtotime($oldtable[$key])) }}" disabled>
+                <div class="modal-body">                    
+                    @if($data->aksi == "Cetak")
+                    <table class="table" id="table">
+                        <thead class="thead">
+                            <tr>
+                            <th class="th" scope="col">No</th>
+                            <th class="th" scope="col">Judul</th>
+                            <th class="th" scope="col">Label</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($table['labels'] as $key=>$label)                            
+                                <?php $judul = explode("-", $label)[0]; $qr = explode("-", $label)[1] ?>
+                                <tr>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ $judul }}</td>
+                                    <td>{{ $qr }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @else
+                        @foreach($table as $key=>$tb)
+                            <div class="mb-3">
+                                @if($key == 'username')
+                                <label for="exampleFormControlInput1" class="form-label">Nomor Anggota</label>
                                 @else
-                                <input type="text" class="form-control" id="basic-url" value="{{ $oldtable[$key] }}" disabled> 
+                                <label for="exampleFormControlInput1" class="form-label">{{ $key }}</label>
+                                @endif
+                                @if($table[$key] == $oldtable[$key])
+                                @if($key == 'created_at' || $key == 'updated_at')
+                                <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ date('d-m-Y H:i:s', strtotime($tb)) }}" disabled>
+                                @else
+                                <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ $tb }}" disabled>
+                                @endif
+                                @else
+                                <div class="row">
+                                    <div class="input-group col">
+                                        <span class="input-group-text" id="basic-addon3">old</span>
+                                        
+                                        @if($key == 'created_at' || $key == 'updated_at')
+                                        <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ date('d-m-Y H:i:s', strtotime($oldtable[$key])) }}" disabled>
+                                        @else
+                                        <input type="text" class="form-control" id="basic-url" value="{{ $oldtable[$key] }}" disabled> 
+                                        @endif
+                                    </div>
+                                    <div class="input-group col">
+                                        <span class="input-group-text" id="basic-addon3">new</span>
+                                        
+                                        @if($key == 'created_at' || $key == 'updated_at')
+                                        <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ date('d-m-Y H:i:s', strtotime($table[$key])) }}" disabled>
+                                        @else
+                                        <input type="text" class="form-control" id="basic-url" value="{{ $table[$key] }}" disabled>
+                                        @endif
+                                    </div>
+                                </div>
                                 @endif
                             </div>
-                            <div class="input-group col">
-                                <span class="input-group-text" id="basic-addon3">new</span>
-                                
-                                @if($key == 'created_at' || $key == 'updated_at')
-                                <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ date('d-m-Y H:i:s', strtotime($table[$key])) }}" disabled>
-                                @else
-                                <input type="text" class="form-control" id="basic-url" value="{{ $table[$key] }}" disabled>
-                                @endif
-                            </div>
-                        </div>
-                        @endif
-                      </div>
-                    @endforeach
+                        @endforeach
+                    @endif
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

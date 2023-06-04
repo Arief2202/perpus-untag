@@ -32,10 +32,9 @@ Badan Perpustakaan Untag Surabaya
                             <thead class="thead">
                                 <tr>
                                 <th class="th" scope="col">No</th>
-                                <th class="th" scope="col">Email Peminjam</th>
+                                <th class="th" scope="col">Nomor Anggota</th>
                                 <th class="th" scope="col">Nomor Kode</th>
                                 <th class="th" scope="col">Judul</th>
-                                <th class="th" scope="col">Pengarang</th>
                                 <th class="th" scope="col">Tanggal Pinjam</th>
                                 <th class="th" scope="col">Jatuh Tempo</th>
                                 <th class="th" scope="col">Tanggal Kembali</th>
@@ -53,10 +52,9 @@ Badan Perpustakaan Untag Surabaya
                                 ?>
                                 <tr>
                                 <td>{{ $a+1 }}</td>
-                                <td>{{ $peminjaman->user->email }}</td>
+                                <td>{{ $peminjaman->user->username }}</td>
                                 <td>{{ $peminjaman->copy_number }}</td>
                                 <td>{{ $peminjaman->buku->judul }}</td>
-                                <td>{{ $peminjaman->buku->pengarang }}</td>
                                 <td>{{ $peminjaman->created_at->format('d-M-Y') }}</td>
                                 @if($peminjaman->status == 1 || $peminjaman->status == 2)
                                     <td><div class="alert alert-{{ $later > $earlier ? 'danger' : 'success' }} d-flex justify-content-center" style="margin:0;padding:0;width:120px;">{{ $jatuhTempo }}</div></td>
